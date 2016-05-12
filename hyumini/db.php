@@ -1,15 +1,20 @@
 <?php
 
 	/* 
-		Author: 안윤근 
-		Description:
-		db.php는 PDO를 사용하여 Database처리의 전반적인 CRUD 기본기능들을 일반화하여 사용하기 편하게 구현한 라이브러리입니다. 왠만한 부분에서는 prepare를 사용하여 기본적인 Injection에 대비를 했으나, 그럼에도 불구하고 보안에 다소 취약할 수 있으니 기본적인 입력값검증은 미리 하시고 사용하시길 바랍니다.
-	*/
+	 *	Author: 안윤근 
+	 *	Description:
+	 *	db.php는 PDO를 사용하여 Database처리의 전반적인 CRUD 기본기능들을 일반화하여 사용하기 편하게 구현한 라이브러리입니다. 
+	 *	왠만한 부분에서는 prepare를 사용하여 기본적인 Injection에 대비를 했으나, 
+	 *	그럼에도 불구하고 보안에 다소 취약할 수 있으니 기본적인 입력값검증은 미리 하시고 사용하시길 바랍니다.
+	 */
 
 	error_reporting(E_ALL);
 	ini_set("display_errors", 1);
 	
-	//assert_option과 핸들러코드는 php.net의 예제에서 가져왔습니다.
+	/* 
+	 *	assert_option과 handler 코드는 php.net의 예제에서 가져왔습니다. 
+	 *	http://php.net/manual/kr/function.assert.php	
+	 */
 	assert_options(ASSERT_ACTIVE, 1);
 	assert_options(ASSERT_WARNING, 0);
 	assert_options(ASSERT_QUIET_EVAL, 1);
@@ -39,21 +44,21 @@
 	$pdo = new PDO($dsn, $user, $passwd, $conf);
 
 	/* 
-	 * Author : 안윤근 
-	 * @Params
-	 * string table : table이름
-	 * [array columns : 필드 이름들]
-	 * array params : insert할 레코드의 파라미터들
+	 *	Author: 안윤근 
+	 *	@Params
+	 *	string table: table이름
+	 *	[array columns: 필드 이름들]
+	 *	array params: insert할 레코드의 파라미터들
 	 *
-	 * @Return
-	 * OnSuccess: 0
-	 * OnFailure: -1
+	 *	@Return
+	 *	OnSuccess: 0
+	 *	OnFailure: -1
 	 *
-	 * @Description
-	 * 기본적인 insert 쿼리를 지원합니다.
-	 * 컬럼명들을 지정한다면 Insert into tableName(컬럼들) values(파라미터들) 쿼리를 실행합니다.
-	 * 지정하지 않고 파라미터들만 지정한다면 Insert into tableName values(파라미터들) 쿼리를 실행합니다.
-	 * 쿼리 오류시 디버깅용 오류메시지를 출력합니다.
+	 *	@Description
+	 *	기본적인 insert 쿼리를 지원합니다.
+	 *	컬럼명들을 지정한다면 Insert into tableName(컬럼들) values(파라미터들) 쿼리를 실행합니다.
+	 *	지정하지 않고 파라미터들만 지정한다면 Insert into tableName values(파라미터들) 쿼리를 실행합니다.
+	 *	쿼리 오류시 디버깅용 오류메시지를 출력합니다.
 	 */
 	function insert(){
 
@@ -106,33 +111,33 @@
 
 
 	/* 
-	 * Author : 안윤근 
-	 * @Params
-	 * string table : table이름
-	 * string column : 단일 필드 이름
-	 * string/array clauses : where, order by 등의 조건절 들
+	 *	Author: 안윤근 
+	 *	@Params
+	 *	string table: table이름
+	 *	string column: 단일 필드 이름
+	 *	string/array clauses: where, order by 등의 조건절 들
 	 *
-	 * @Return
-	 * OnSuccess: result value
-	 * OnEmptyResult: null
-	 * OnFailure: -1
+	 *	@Return
+	 *	OnSuccess: result value
+	 *	OnEmptyResult: null
+	 *	OnFailure: -1
 	 *
-	 * @Description
-	 * 이 함수는
-	 * SELECT column FROM table clauses LIMIT 1
-	 * 쿼리를 실행하고,
-	 * 오로지 결과값 하나만을 리턴합니다. (레코드 한줄이 아닌 결과값 하나입니다.)
+	 *	@Description
+	 *	이 함수는
+	 *	SELECT column FROM table clauses LIMIT 1
+	 *	쿼리를 실행하고,
+	 *	오로지 결과값 하나만을 리턴합니다. (레코드 한줄이 아닌 결과값 하나입니다.)
 	 *
-	 * 예를 들어, SELECT name from test where id=1; 
-	 * 이런식의 쿼리를 요청시 레코드 전체가 아닌 "안윤근" 하나만을 리턴합니다.
-	 * 편의상 만든 함수이기 때문에 여러 레코드를 리턴할 필요가 있을 때에는 selectAll 함수를 호출해주세요.
+	 *	예를 들어, SELECT name from test where id=1; 
+	 *	이런식의 쿼리를 요청시 레코드 전체가 아닌 "안윤근" 하나만을 리턴합니다.
+	 *	편의상 만든 함수이기 때문에 여러 레코드를 리턴할 필요가 있을 때에는 selectAll 함수를 호출해주세요.
 	 *
-	 * clauses가 만약,
-	 * key=>value array로 들어온 경우,
-	 * SELECT column FROM table key0 value0 key1 value1 ... LIMIT 1
-	 * 쿼리를 실행합니다.
+	 *	clauses가 만약,
+	 *	key=>value array로 들어온 경우,
+	 *	SELECT column FROM table key0 value0 key1 value1 ... LIMIT 1
+	 *	쿼리를 실행합니다.
 	 *
-	 * 쿼리 오류시 디버깅용 오류메시지를 출력합니다.
+	 *	쿼리 오류시 디버깅용 오류메시지를 출력합니다.
 	 */
 	function selectOne($table, $column, $clauses=""){
 
@@ -161,27 +166,27 @@
 	}
 
 	/* 
-	 * Author : 안윤근 
-	 * @Params
-	 * string table : table이름
-	 * string/array columns : 필드들 이름, default "*"
-	 * string/array clauses : where, order by 등의 조건절 들
+	 *	Author: 안윤근
+	 *	@Params
+	 *	string table: table이름
+	 *	string/array columns: 필드들 이름, default "*"
+	 *	string/array clauses: where, order by 등의 조건절 들
 	 *
-	 * @Return
-	 * OnSuccess: 결과 레코드들의 연관배열
-	 * OnEmptySet: null
-	 * OnFailure: -1
+	 *	@Return
+	 *	OnSuccess: 결과 레코드들의 연관배열
+	 *	OnEmptySet: null
+	 *	OnFailure: -1
 	 *
-	 * @Description
-	 * 쿼리로 검색된 레코드 전부를 리턴합니다.
-	 * SELECT columns FROM table clauses 쿼리를 실행합니다.
+	 *	@Description
+	 *	쿼리로 검색된 레코드 전부를 리턴합니다.
+	 *	SELECT columns FROM table clauses 쿼리를 실행합니다.
 	 * 
-	 * clauses가 만약,
-	 * key=>value array로 들어온 경우,
-	 * SELECT columns FROM table key0 value0 key1 value1 ...
-	 * 쿼리를 실행합니다.
+	 *	clauses가 만약,
+	 *	key=>value array로 들어온 경우,
+	 *	SELECT columns FROM table key0 value0 key1 value1 ...
+	 *	쿼리를 실행합니다.
 	 * 
-	 * 쿼리 오류시 디버깅용 오류메시지를 출력합니다.
+	 *	쿼리 오류시 디버깅용 오류메시지를 출력합니다.
 	 */
 	function selectAll($table, $columns="*", $clauses=""){
 		//Assertions - 입력값 검증
@@ -211,29 +216,29 @@
 	}
 
 	/* 
-	 * Author : 안윤근 
-	 * @Params
-	 * string table : table이름
-	 * string/array set : 업데이트 하려는 필드=>값 연관배열
-	 * string/array clauses : where, order by 등의 조건절 들
-	 * set은
-	 * Array("num"=>1,"name"=>"홍길동","age"=>30) 혹은,
-	 * "num=1, name='홍길동', age=30" 
-	 * 이렇게 통 문자열에 콤마로 구분하여 주셔도 좋습니다.
+	 *	Author : 안윤근 
+	 *	@Params
+	 *	string table : table이름
+	 *	string/array set : 업데이트 하려는 필드=>값 연관배열
+	 *	string/array clauses : where, order by 등의 조건절 들
+	 *	set은
+	 *	Array("num"=>1,"name"=>"홍길동","age"=>30) 혹은,
+	 *	"num=1, name='홍길동', age=30" 
+	 *	이렇게 set절을 raw string으로 주셔도 좋습니다.
 	 *
-	 * @Return
-	 * OnSuccess: update문에 의해 영향받은 레코드 갯수 (>=0)
-	 * OnFailure: -1
+	 *	@Return
+	 *	OnSuccess: update문에 의해 영향받은 레코드 갯수 (>=0)
+	 *	OnFailure: -1
 	 *
-	 * @Description
-	 * UPDATE table SET setkey0=setVal0, ... clauses 쿼리를 실행합니다.
+	 *	@Description
+	 *	UPDATE table SET setkey0=setVal0, ... clauses 쿼리를 실행합니다.
 	 * 
-	 * clauses가 만약,
-	 * key=>value array로 들어온 경우,
-	 * UPDATE ... key0 value0 key1 value1 ...
-	 * 쿼리를 실행합니다.
+	 *	clauses가 만약,
+	 *	key=>value array로 들어온 경우,
+	 *	UPDATE ... key0 value0 key1 value1 ...
+	 *	쿼리를 실행합니다.
 	 * 
-	 * 쿼리 오류시 디버깅용 오류메시지를 출력합니다.
+	 *	쿼리 오류시 디버깅용 오류메시지를 출력합니다.
 	 */
 	function update($table, $set, $clauses=""){
 		assert(gettype($table)=="string", "The type of first parameter must be string.");
@@ -255,7 +260,7 @@
 		}
 
 		$prepare.=clauseBuild($clauses);
-//		print("<br/>".$prepare."<br/>");
+		//print("<br/>".$prepare."<br/>");
 
 		$stmt = $pdo->prepare($prepare);
 		$stmt->execute(array_values($set));
@@ -271,25 +276,25 @@
 	}
 
 	/* 
-	 * Author : 안윤근 
-	 * @Params
-	 * string table : table이름
-	 * string/array clauses : where, order by 등의 조건절 들
+	 *	Author: 안윤근 
+	 *	@Params
+	 *	string table: table이름
+	 *	string/array clauses: where, order by 등의 조건절 들
 	 *
-	 * @Return
-	 * OnSuccess: Delete문에 의해 영향받은 레코드 갯수 (>=0)
-	 * OnFailure: -1
+	 *	@Return
+	 *	OnSuccess: Delete문에 의해 영향받은 레코드 갯수 (>=0)
+	 *	OnFailure: -1
 	 *
-	 * @Description
-	 * DELETE FROM table clauses 쿼리를 실행합니다.
-	 * 이미 delete라는 함수명이 php에 존재하기 때문에 deletes라는 함수명을 사용합니다.
+	 *	@Description
+	 *	DELETE FROM table clauses 쿼리를 실행합니다.
+	 *	이미 delete라는 함수명이 php에 존재하기 때문에 deletes라는 함수명을 사용합니다.
 	 * 
-	 * clauses가 만약,
-	 * key=>value array로 들어온 경우,
-	 * DELETE FROM table key0 value0 key1 value1 ...
-	 * 쿼리를 실행합니다.
+	 *	clauses가 만약,
+	 *	key=>value array로 들어온 경우,
+	 *	DELETE FROM table key0 value0 key1 value1 ...
+	 *	쿼리를 실행합니다.
 	 * 
-	 * 쿼리 오류시 디버깅용 오류메시지를 출력합니다.
+	 *	쿼리 오류시 디버깅용 오류메시지를 출력합니다.
 	 */
 	function deletes($table, $clauses){
 		assert(gettype($table)=="string", "The type of first parameter must be string.");
@@ -300,32 +305,32 @@
 		//prepare statement build
 		$prepare = "DELETE FROM ".$table." ";
 		$prepare.=clauseBuild($clauses);
-//		print("<br/>".$prepare."<br/>");
+		//print("<br/>".$prepare."<br/>");
 		$stmt = rawQuery($prepare);
 		return $stmt->rowCount();
 	}
 
 
 	/* 
-	 * Author : 안윤근 
-	 * @Params
-	 * string table : table이름
-	 * string/array clauses : where, order by 등의 조건절 들
+	 *	Author: 안윤근 
+	 *	@Params
+	 *	string table: table이름
+	 *	string/array clauses: where, order by 등의 조건절 들
 	 *
-	 * @Return
-	 * OnSuccess: 검색된 레코드 갯수
-	 * OnFailure: -1
+	 *	@Return
+	 *	OnSuccess: 검색된 레코드 갯수
+	 *	OnFailure: -1
 	 *
-	 * @Description
-	 * SELECT count(*) FROM table clauses 쿼리를 실행합니다.
-	 * 이미 count라는 함수가 php에 존재하기 때문에 counts라는 함수명을 사용합니다.
+	 *	@Description
+	 *	SELECT count(*) FROM table clauses 쿼리를 실행합니다.
+	 *	이미 count라는 함수가 php에 존재하기 때문에 counts라는 함수명을 사용합니다.
 	 * 
-	 * clauses가 만약,
-	 * key=>value array로 들어온 경우,
-	 * SELECT count(*) FROM table key0 value0 key1 value1 ...
-	 * 쿼리를 실행합니다.
+	 *	clauses가 만약,
+	 *	key=>value array로 들어온 경우,
+	 *	SELECT count(*) FROM table key0 value0 key1 value1 ...
+	 *	쿼리를 실행합니다.
 	 * 
-	 * 쿼리 오류시 디버깅용 오류메시지를 출력합니다.
+	 *	쿼리 오류시 디버깅용 오류메시지를 출력합니다.
 	 */
 	function counts($table, $clauses){
 		assert(gettype($table)=="string", "The type of first parameter must be string.");
@@ -334,25 +339,25 @@
 	}
 
 	/* 
-	 * Author : 안윤근 
-	 * @Params
-	 * string table : table이름
-	 * string column : column이름
-	 * string/array clauses : where, order by 등의 조건절 들
+	 *	Author: 안윤근 
+	 *	@Params
+	 *	string table: table이름
+	 *	string column: column이름
+	 *	string/array clauses: where, order by 등의 조건절 들
 	 *
-	 * @Return
-	 * OnSuccess: 조건에 부합하는 레코드들의 합
-	 * OnFailure: -1
+	 *	@Return
+	 *	OnSuccess: 조건에 부합하는 레코드들의 합
+	 *	OnFailure: -1
 	 *
-	 * @Description
-	 * SELECT sum(*) FROM table clauses 쿼리를 실행합니다.
+	 *	@Description
+	 *	SELECT sum(*) FROM table clauses 쿼리를 실행합니다.
 	 *
-	 * clauses가 만약,
-	 * key=>value array로 들어온 경우,
-	 * SELECT sum(*) FROM table key0 value0 key1 value1 ...
-	 * 쿼리를 실행합니다.
+	 *	clauses가 만약,
+	 *	key=>value array로 들어온 경우,
+	 *	SELECT sum(*) FROM table key0 value0 key1 value1 ...
+	 *	쿼리를 실행합니다.
 	 * 
-	 * 쿼리 오류시 디버깅용 오류메시지를 출력합니다.
+	 *	쿼리 오류시 디버깅용 오류메시지를 출력합니다.
 	 */
 	function sum($table, $column, $clauses){
 		assert(gettype($table)=="string", "The type of first parameter must be string.");
@@ -362,25 +367,25 @@
 	}
 
 	/* 
-	 * Author : 안윤근 
-	 * @Params
-	 * string table : table이름
-	 * string column : column이름
-	 * string/array clauses : where, order by 등의 조건절 들
+	 *	Author: 안윤근 
+	 *	@Params
+	 *	string table: table이름
+	 *	string column: column이름
+	 *	string/array clauses: where, order by 등의 조건절 들
 	 *
-	 * @Return
-	 * OnSuccess: 조건에 부합하는 레코드들의 평균값
-	 * OnFailure: -1
+	 *	@Return
+	 *	OnSuccess: 조건에 부합하는 레코드들의 평균값
+	 *	OnFailure: -1
 	 *
-	 * @Description
-	 * SELECT avg(*) FROM table clauses 쿼리를 실행합니다.
+	 *	@Description
+	 *	SELECT avg(column) FROM table clauses 쿼리를 실행합니다.
 	 * 
-	 * clauses가 만약,
-	 * key=>value array로 들어온 경우,
-	 * SELECT avg(*) FROM table key0 value0 key1 value1 ...
-	 * 쿼리를 실행합니다.
+	 *	clauses가 만약,
+	 *	key=>value array로 들어온 경우,
+	 *	SELECT avg(column) FROM table key0 value0 key1 value1 ...
+	 *	쿼리를 실행합니다.
 	 * 
-	 * 쿼리 오류시 디버깅용 오류메시지를 출력합니다.
+	 *	쿼리 오류시 디버깅용 오류메시지를 출력합니다.
 	 */
 	function avg($table, $column, $clauses){
 		assert(gettype($table)=="string", "The type of first parameter must be string.");
@@ -390,25 +395,25 @@
 	}
 
 	/* 
-	 * @Params
-	 * password: 패스워드 해시하고자 하는 문자열
-	 * @Return
-	 * 패스워드 해시 값
-	 * @Description
-	 * 패스워드를 받아서 패스워드 해시값을 리턴합니다.
-	 * 패스워드 해시가 필요한 경우 쿼리에서 PASSWORD()쓰지 말고 이 함수를 써주세요.
+	 *	@Params
+	 *	password: 패스워드 해시하고자 하는 문자열
+	 *	@Return
+	 *	패스워드 해시 값
+	 *	@Description
+	 *	패스워드를 받아서 패스워드 해시값을 리턴합니다.
+	 *	패스워드 해시가 필요한 경우 쿼리에서 PASSWORD()쓰지 말고 이 함수를 써주세요.
 	 */
 	function pwd($password){
 		return password_hash($password, PASSWORD_DEFAULT);
 	}
 
 	/*
-	 * @Params
-	 * param: 쿼팅 하고자 하는 문자열
-	 * @Return
-	 * 'param'
-	 * @Description
-	 * PDO의 quote함수를 수행합니다. 쿼리 파라미터에 ' ' 직접넣지말고 이 함수를 써주세요.
+	 *	@Params
+	 *	param: 쿼팅 하고자 하는 문자열
+	 *	@Return
+	 *	'param'
+	 *	@Description
+	 *	PDO의 quote함수를 수행합니다. 쿼리 파라미터에 ' ' 직접넣지말고 이 함수를 써주세요.
 	 */
 	function quote($param){
 		global $pdo;
@@ -416,13 +421,13 @@
 	}
 
 	/*
-	 * Author: 안윤근
-	 * @Params
-	 * param: 쿼리문 문자열
-	 * @Return
-	 * statement 오브젝트.
-	 * @Description
-	 * 날쿼리를 수행합니다. 수행결과를 오브젝트로 리턴합니다.
+	 *	Author: 안윤근
+	 *	@Params
+	 *	param: 쿼리문 문자열
+	 *	@Return
+	 *	statement 오브젝트.
+	 *	@Description
+	 *	raw query를 수행합니다. 수행결과를 오브젝트로 리턴합니다.
 	 */
 	function rawQuery($query){
 		global $pdo;
@@ -438,20 +443,19 @@
 	}
 
 	/* 
-	 * Author : 안윤근 
-	 * @Params
-	 * string/array clauses : where, order by 등의 조건절 들
-	 * string과 clause=>condition인 연관배열을 받습니다.
-	 * 파라미터 예시1: Array("where"=>"id=1 and name LIKE 안윤근","LIMIT"=>3,"ORDER BY"=>"desc")
-	 * 파라미터 예시2: "where id=1 and name like 안윤근 limit 3 ..."
+	 *	Author: 안윤근 
+	 *	@Params
+	 *	string/array clauses: where, order by 등의 조건절 들
+	 *	string과 clause=>condition인 연관배열을 받습니다.
+	 *	파라미터 예시1: Array("where"=>"id=1 and name LIKE 안윤근","LIMIT"=>3,"ORDER BY"=>"desc")
+	 *	파라미터 예시2: "where id=1 and name like 안윤근 limit 3 ..."
 	 *
-	 * @Return
-	 * OnSuccess: Parsed clauses
+	 *	@Return
+	 *	OnSuccess: Parsed clauses
 	 *
-	 * @Description
-	 * 조건절들을 받아서 문자열로 빌드합니다.
-	 * 단지 db.php 내에서만 사용하기 위한 함수입니다.
-	 * 
+	 *	@Description
+	 *	조건절들을 받아서 문자열로 빌드합니다.
+	 *	오로지 db.php 내에서만 사용하기 위한 함수입니다.
 	 */
 	function clauseBuild($clauses){
 		$result = "";

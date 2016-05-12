@@ -1,24 +1,25 @@
 <?php
 	require("../db.php");
 	/*
-	 * Author: 안윤근
-	 * @Description
-	 * 첫 로그인 시, firstlogin.html에서 ajax request를 본 코드로 보내어 
-	 * 새로운 id와 password를 설정합니다.
+	 *	Author: 안윤근
+	 *	@Description
+	 *	첫 로그인 시, firstlogin.html에서 ajax request를 본 코드로 보내어 
+	 *	새로운 id와 password를 설정합니다.
 	 * 
-	 * @Parameter(POST)
-	 * studentID: login.html에서 입력받은 학번
-	 * newID: 새로 설정할 id
-	 * newPW: 새로 설정할 pw
+	 *	@Param(POST)
+	 *	studentID: login.html에서 입력받은 학번
+	 *	newID: 새로 설정할 id
+	 *	newPW: 새로 설정할 pw
 	 *
-	 * @Returns(json)
-	 * reason: 변경 실패시의 이유입니다.
-	 * resultCode: 리턴 코드는 다음과 같습니다.
-	 * Setting Success	  :  1
-	 * Setting Failed	  :  0
-	 * Exception/Error	  : -1
+	 *	@Return(JSON)
+	 *	reason: 변경 실패시의 이유입니다.
+	 *	resultCode: 리턴 코드는 다음과 같습니다.
+	 * 
+	 *	Setting Success	  :  1
+	 *	Setting Failed	  :  0
+	 *	Exception/Error	  : -1
 	 */
-	$err = json_encode(Array("reason"=>"Exception/Error","resultCode"=>-1));
+	$err = json_encode(Array("reason"=>"Exception/Error", "resultCode"=>-1));
 	if(!isset($_POST["studentID"])){
 		echo $err;
 		exit;
@@ -68,14 +69,14 @@
 		echo $err;
 		exit;
 	}
-	/* 2a. 
-	 * 알파뱃과 숫자만으로 이루어지지 않은 id, 
-	 * 숫자만으로 이루어진 id,
-	 * 24자리가 넘는 id, 
-	 * 이미 존재하는 id, 
-	 * 학번과 같은 pw,
-	 * ID와 같은 pw인 경우에 각각의 error reason 리턴
-	 * 정상적이면 null 리턴
+	/*	2a. 
+	 *	알파뱃과 숫자만으로 이루어지지 않은 id, 
+	 *	숫자만으로 이루어진 id,
+	 *	24자리가 넘는 id, 
+	 *	이미 존재하는 id, 
+	 *	학번과 같은 pw,
+	 *	ID와 같은 pw인 경우에 각각의 error reason 리턴
+	 *	정상적이면 null 리턴
 	 */
 	function validation($id, $pw){
 		global $sid;

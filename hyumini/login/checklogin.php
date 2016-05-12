@@ -1,27 +1,27 @@
 <?php
 	require("../db.php");
 	/*
-	 * Author: 안윤근
+	 *	Author: 안윤근
 	 *
-	 * @Description
-	 * 로그인 시, login.html에서 ajax request를 본 코드로 보내어 
-	 * 로그인이 성공했는지, 실패했는지, 첫 로그인인지, 관리자인지, 학생인지 등의 
-	 * Authentication 정보와 레코드를 리턴합니다.
+	 *	@Description
+	 *	로그인 시, login.html에서 ajax request를 본 코드로 보내어 
+	 *	로그인이 성공했는지, 실패했는지, 첫 로그인인지, 관리자인지, 학생인지 등의 
+	 *	상태와 결과 레코드를 리턴합니다.
 	 * 
-	 * @Parameter(POST)
-	 * id: 입력받은 id(혹은 학번)
-	 * pw: 입력받은 패스워드
+	 *	@Param(POST)
+	 *	id: 입력받은 id(혹은 학번)
+	 *	pw: 입력받은 패스워드
 	 *
-	 * @Returns
-	 * json 문자열을 넘겨줍니다.
-	 * records: 조회한 레코드 정보입니다.
-	 * resultCode: 리턴 코드는 다음과 같습니다.
-	 * Error:			-1
-	 * Fail:			 0
-	 * Success:			 1
-	 * First Login:		 2
-	 * Admin:			 3
-	 * Admin & First:	 4
+	 *	@Return(JSON)
+	 *	records: 조회한 레코드 정보입니다.
+	 *	resultCode: 리턴 코드는 다음과 같습니다.
+	 *
+	 *	Error			:	-1
+	 *	Fail			:	 0
+	 *	Success			:	 1
+	 *	First Login		:	 2
+	 *	Admin			:	 3
+	 *	Admin & First	:	 4
 	 *
 	 */
 	$err = json_encode(Array("resultCode"=>-1));
@@ -96,4 +96,5 @@
 		$json = json_encode($arr);
 		echo $json;
 	}
+
 ?>
