@@ -282,7 +282,7 @@
 	 *
 	 * @Description
 	 * DELETE FROM table clauses 쿼리를 실행합니다.
-	 * 이미 delete라는 함수명이 php에 존재하기 때문에 remove라는 함수명을 사용합니다.
+	 * 이미 delete라는 함수명이 php에 존재하기 때문에 deletes라는 함수명을 사용합니다.
 	 * 
 	 * clauses가 만약,
 	 * key=>value array로 들어온 경우,
@@ -291,7 +291,7 @@
 	 * 
 	 * 쿼리 오류시 디버깅용 오류메시지를 출력합니다.
 	 */
-	function remove($table, $clauses){
+	function deletes($table, $clauses){
 		assert(gettype($table)=="string", "The type of first parameter must be string.");
 		assert(gettype($clauses)=="array" || gettype($clauses)=="string", "The type of second parameter must be string or array.");
 
@@ -476,7 +476,7 @@
 	//print("<br/>update:<br/>");
 	//print(update("testTB",Array("name"=>"AAAbbb","age"=>1),Array("where"=>"num=2")));
 	//print("<br/>remove:<br/>");
-	//print(remove("testTB","where age=221 limit 2"));
+	//print(deletes("testTB","where age=221 limit 2"));
 	//print("<br/>counts:<br/>");
 	//print(counts("testTB","where age=3"));
 
