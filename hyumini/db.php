@@ -26,16 +26,17 @@
 	// Set up the callback
 	assert_options(ASSERT_CALLBACK, 'my_assert_handler');
 
-
-
 	//DB 연결을 위한 attribute들
 	$dbkind = "mysql";
-	$dbhost = "selab.hanyang.ac.kr";
+	$host = "127.0.0.1";
 	$dbname = "hyumini";
-	$id = "hyumini";
-	$pwd = "hyu(e)mini";
+
+	$dsn = $dbkind.":host=".$host.";dbname=".$dbname;
+
+	$user = "hyumini";
+	$passwd = "hyu(e)mini";
 	$conf = array(PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES utf8");
-	$pdo = new PDO($dbkind.":host=".$dbhost.";dbname=".$dbname, $id, $pwd, $conf);
+	$pdo = new PDO($dsn, $user, $passwd, $conf);
 
 	/* 
 	 * Author : 안윤근 
