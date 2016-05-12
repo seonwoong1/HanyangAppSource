@@ -30,10 +30,10 @@
 
 	//DB 연결을 위한 attribute들
 	$dbkind = "mysql";
-	$dbhost = "localhost";
-	$dbname = "testDB";
-	$id = "root";
-	$pwd = "root";
+	$dbhost = "selab.hanyang.ac.kr";
+	$dbname = "hyumini";
+	$id = "hyumini";
+	$pwd = "hyu(e)mini";
 	$conf = array(PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES utf8");
 	$pdo = new PDO($dbkind.":host=".$dbhost.";dbname=".$dbname, $id, $pwd, $conf);
 
