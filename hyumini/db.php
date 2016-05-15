@@ -63,13 +63,12 @@
 	function insert(){
 
 		//Assertions - 오버로딩을 위한 assertion들... 솔직히 지저분하네요..
-		assert(func_num_args()>1, "Number of parameters must be more than 1.");
-		assert(gettype(func_get_arg(0))=="string", "The type of first parameter must be string.");
-		assert(gettype(func_get_arg(1))=="array", "The type of second parameter must be array.");
-		if(func_num_args()==3){
-			assert(gettype(func_get_arg(2))=="array", "The type of third parameter must be array.");
-		}
-		assert(func_num_args()<4, "Number of parameters must be less than 4.");
+		assert(func_num_args()>1);
+		assert(gettype(func_get_arg(0))=="string");
+		assert(gettype(func_get_arg(1))=="array");
+		if(func_num_args()==3)	
+			assert(gettype(func_get_arg(2))=="array");
+		assert(func_num_args()<4);
 
 		//Implementation
 		//PHP에서 파라미터 갯수로 오버로딩 구현..
@@ -142,9 +141,9 @@
 	function selectOne($table, $column, $clauses=""){
 
 		//Assertions - 입력값 검증
-		assert(gettype($table)=="string", "The type of first parameter must be string.");
-		assert(isset($column) || gettype($column)=="string", "The type of second parameter must be string.");
-		assert(gettype($clauses)=="array" || gettype($clauses)=="string", "The type of third parameter must be string or array.");
+		assert(gettype($table)=="string");
+		assert(isset($column) || gettype($column)=="string");
+		assert(gettype($clauses)=="array" || gettype($clauses)=="string");
 
 		global $pdo;
 
@@ -190,9 +189,9 @@
 	 */
 	function selectAll($table, $columns="*", $clauses=""){
 		//Assertions - 입력값 검증
-		assert(gettype($table)=="string", "The type of first parameter must be string.");
-		assert(gettype($columns)=="array" || gettype($columns)=="string", "The type of second parameter must be string or array.");
-		assert(gettype($clauses)=="array" || gettype($clauses)=="string", "The type of third parameter must be string or array.");
+		assert(gettype($table)=="string");
+		assert(gettype($columns)=="array" || gettype($columns)=="string");
+		assert(gettype($clauses)=="array" || gettype($clauses)=="string");
 
 		global $pdo;
 
@@ -241,9 +240,9 @@
 	 *	쿼리 오류시 디버깅용 오류메시지를 출력합니다.
 	 */
 	function update($table, $set, $clauses=""){
-		assert(gettype($table)=="string", "The type of first parameter must be string.");
-		assert(gettype($set)=="array" || gettype($set)=="string", "The type of second parameter must be string or string or array.");
-		assert(gettype($clauses)=="array" || gettype($clauses)=="string", "The type of third parameter must be string or array.");
+		assert(gettype($table)=="string");
+		assert(gettype($set)=="array" || gettype($set)=="string");
+		assert(gettype($clauses)=="array" || gettype($clauses)=="string");
 
 		global $pdo;
 
@@ -297,8 +296,8 @@
 	 *	쿼리 오류시 디버깅용 오류메시지를 출력합니다.
 	 */
 	function deletes($table, $clauses){
-		assert(gettype($table)=="string", "The type of first parameter must be string.");
-		assert(gettype($clauses)=="array" || gettype($clauses)=="string", "The type of second parameter must be string or array.");
+		assert(gettype($table)=="string");
+		assert(gettype($clauses)=="array" || gettype($clauses)=="string");
 
 		global $pdo;
 
@@ -333,8 +332,8 @@
 	 *	쿼리 오류시 디버깅용 오류메시지를 출력합니다.
 	 */
 	function counts($table, $clauses){
-		assert(gettype($table)=="string", "The type of first parameter must be string.");
-		assert(gettype($clauses)=="array" || gettype($clauses)=="string", "The type of second parameter must be string or array.");
+		assert(gettype($table)=="string");
+		assert(gettype($clauses)=="array" || gettype($clauses)=="string");
 		return selectOne($table,"count(*)",$clauses);
 	}
 
@@ -360,9 +359,9 @@
 	 *	쿼리 오류시 디버깅용 오류메시지를 출력합니다.
 	 */
 	function sum($table, $column, $clauses){
-		assert(gettype($table)=="string", "The type of first parameter must be string.");
-		assert(gettype($column)=="string", "The type of second parameter must be string.");
-		assert(gettype($clauses)=="array" || gettype($clauses)=="string", "The type of third parameter must be string or array.");
+		assert(gettype($table)=="string");
+		assert(gettype($column)=="string");
+		assert(gettype($clauses)=="array" || gettype($clauses)=="string");
 		return selectOne($table,"sum(".$column.")",$clauses);
 	}
 
@@ -388,9 +387,9 @@
 	 *	쿼리 오류시 디버깅용 오류메시지를 출력합니다.
 	 */
 	function avg($table, $column, $clauses){
-		assert(gettype($table)=="string", "The type of first parameter must be string.");
-		assert(gettype($column)=="string", "The type of second parameter must be string.");
-		assert(gettype($clauses)=="array" || gettype($clauses)=="string", "The type of third parameter must be string or array.");
+		assert(gettype($table)=="string");
+		assert(gettype($column)=="string");
+		assert(gettype($clauses)=="array" || gettype($clauses)=="string");
 		return selectOne($table,"avg(".$column.")",$clauses);
 	}
 
@@ -404,7 +403,10 @@
 	 *	패스워드 해시가 필요한 경우 쿼리에서 PASSWORD()쓰지 말고 이 함수를 써주세요.
 	 */
 	function pwd($password){
-		return password_hash($password, PASSWORD_DEFAULT);
+		$query = "select password(".quote($password).")";
+		$stmt = rawQuery($query);
+		$result = $stmt->fetchAll();
+		return $result[0][0];
 	}
 
 	/*

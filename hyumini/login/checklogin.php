@@ -37,13 +37,14 @@
 	$pw = quote(pwd($_POST["pw"]));
 
 	$table = "User";
-	$clause = "WHERE (ID=".$id." OR SID=".$id.") AND PW = ".$pwd;
+	$clause = "WHERE (ID=".$id." OR SID=".$id.") AND PW = ".$pw;
 	$cnt = counts($table, $clause);
 
 	$resultCode = -1;
 	//입력된 ID/PW가 매칭되는 레코드가 없음
 	if($cnt==0){
-		$clause = "WHERE ID=NULL AND SID=".$id." AND PW=".quote($_POST["pw"]);//pwd함수에 넣지 않음.
+		$clause = "WHERE ID IS NULL AND SID=".$id." AND PW=".quote($_POST["pw"]);//pwd함수에 넣지 않음.
+		echo $clause;
 		//하지만 그 중에서도 First Login인 경우.
 		if(counts($table, $clause)==1){
 			$column = "master";
