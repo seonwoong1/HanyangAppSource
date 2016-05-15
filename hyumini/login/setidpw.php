@@ -39,7 +39,7 @@
 
 	$table = "User";
 	//1. 진짜 첫 로그인인지 DB조회
-	$clause = "WHERE SID=".$sid." AND ID=NULL";//해당 학번의 ID필드가 null이면 첫 로그인으로 판정.
+	$clause = "WHERE SID=".$sid." AND ID IS NULL";//해당 학번의 ID필드가 null이면 첫 로그인으로 판정.
 	//만약 검색된 레코드가 1개라면(정상적인 첫 로그인인 경우) 
 	if(counts($table, $clause)==1){
 		//2. id, PW 검증
