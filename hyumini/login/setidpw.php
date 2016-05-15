@@ -4,10 +4,10 @@
 	 *	Author: 안윤근
 	 *	@Description
 	 *	첫 로그인 시, firstlogin.html에서 ajax request를 본 코드로 보내어 
-	 *	새로운 id와 password를 설정합니다.
+	 *	새로운 id와 PW를 설정합니다.
 	 * 
 	 *	@Param(POST)
-	 *	studentID: login.html에서 입력받은 학번
+	 *	SID: login.html에서 입력받았던 학번
 	 *	newID: 새로 설정할 id
 	 *	newPW: 새로 설정할 pw
 	 *
@@ -20,7 +20,7 @@
 	 *	Exception/Error	  : -1
 	 */
 	$err = json_encode(Array("reason"=>"Exception/Error", "resultCode"=>-1));
-	if(!isset($_POST["studentID"])){
+	if(!isset($_POST["SID"])){
 		echo $err;
 		exit;
 	}
@@ -32,22 +32,22 @@
 		echo $err;
 		exit;
 	}
-	$sid = quote($_POST["studentID"]);
+	$sid = quote($_POST["SID"]);
 	$email = quote($_POST["newID"]."@hanyang.ac.kr");
 	$id = quote($_POST["newID"]);
 	$pw = quote(pwd($_POST["newPW"]));
 
 	$table = "User";
 	//1. 진짜 첫 로그인인지 DB조회
-	$clause = "WHERE studentID=".$sid." AND ID=NULL";//해당 학번의 ID필드가 null이면 첫 로그인으로 판정.
+	$clause = "WHERE SID=".$sid." AND ID=NULL";//해당 학번의 ID필드가 null이면 첫 로그인으로 판정.
 	//만약 검색된 레코드가 1개라면(정상적인 첫 로그인인 경우) 
 	if(counts($table, $clause)==1){
-		//2. id, password 검증
+		//2. id, PW 검증
 		$reason = validation($_POST["newID"], $_POST["newPW"]);
 		//새로운 id 와 pw가 모두 valid함
 		if($reason==null){
 			//3. db update
-			$set = Array("id"=>$id, "password"=>$pw, "email"=>$email);
+			$set = Array("id"=>$id, "PW"=>$pw, "email"=>$email);
 			$cnt = update($table, $set, $clause);
 			//정상적인 update
 			if($cnt==1){

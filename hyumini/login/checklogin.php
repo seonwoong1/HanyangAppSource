@@ -37,19 +37,19 @@
 	$pw = quote(pwd($_POST["pw"]));
 
 	$table = "User";
-	$clause = "WHERE (ID=".$id." OR studentID=".$id.") AND password = ".$pwd;
+	$clause = "WHERE (ID=".$id." OR SID=".$id.") AND PW = ".$pwd;
 	$cnt = counts($table, $clause);
 
 	$resultCode = -1;
 	//입력된 ID/PW가 매칭되는 레코드가 없음
 	if($cnt==0){
-		$clause = "WHERE ID=NULL AND studentID=".$id." AND password=".quote($_POST["pw"]);//pwd함수에 넣지 않음.
+		$clause = "WHERE ID=NULL AND SID=".$id." AND PW=".quote($_POST["pw"]);//pwd함수에 넣지 않음.
 		//하지만 그 중에서도 First Login인 경우.
 		if(counts($table, $clause)==1){
-			$column = "access";
-			$access = selectOne($table, $column, $clause);
-			//근데 하필 관리자인 경우 - access가 1
-			if($access==1){
+			$column = "master";
+			$master = selectOne($table, $column, $clause);
+			//근데 하필 관리자인 경우 - master가 1
+			if($master==1){
 				$resultCode = 4;	
 			}
 			//관리자는 아니고 일반 학생인 경우
@@ -64,10 +64,10 @@
 	}
 	//입력된 ID/PW가 매칭되는 레코드가 '단 하나' 존재하는 경우.
 	else if($cnt==1){
-		$column = "access";
-		$access = selectOne($table, $column, $clause);
+		$column = "master";
+		$master = selectOne($table, $column, $clause);
 		//로그인한게 Admin인 경우
-		if($access==1){
+		if($master==1){
 			$resultCode = 3;
 		}
 		//로그인한게 일반 학생인 경우
@@ -86,10 +86,10 @@
 	}
 	//그냥 정상적으로 성공한 경우에는 레코드도 조회해서 정보를 넘겨줌.
 	else{
-		//ID와 password는 넘겨줄 필요 없음.
-		//어차피 access는 resultCode로 관리자인지 아닌지 알 수 있음.
+		//ID와 PW는 넘겨줄 필요 없음.
+		//어차피 master는 resultCode로 관리자인지 아닌지 알 수 있음.
 		//따라서 학번, 이름, 이메일만 조회해서 넘겨준다.
-		$columns = Array("studentID", "name", "email");
+		$columns = Array("SID", "name", "email");
 		$records = selectAll($table, $columns, $clause);
 		
 		$arr = Array("records"=>$records, "resultCode"=>$resultCode);
