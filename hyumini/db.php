@@ -59,6 +59,11 @@
 	 *	컬럼명들을 지정한다면 Insert into tableName(컬럼들) values(파라미터들) 쿼리를 실행합니다.
 	 *	지정하지 않고 파라미터들만 지정한다면 Insert into tableName values(파라미터들) 쿼리를 실행합니다.
 	 *	쿼리 오류시 디버깅용 오류메시지를 출력합니다.
+	 *
+	 *	@Issue
+	 *	insert 하는 데이터들은 자동으로 PDO::prepare를 거쳐 quote()되어 들어갑니다.
+	 *	따라서 미리 quote를 해서 넣으면 의도와 다르게 입력될 수 있습니다.
+	 *
 	 */
 	function insert(){
 
@@ -137,6 +142,7 @@
 	 *	쿼리를 실행합니다.
 	 *
 	 *	쿼리 오류시 디버깅용 오류메시지를 출력합니다.
+	 *
 	 */
 	function selectOne($table, $column, $clauses=""){
 
@@ -181,7 +187,7 @@
 	 *	SELECT columns FROM table clauses 쿼리를 실행합니다.
 	 * 
 	 *	clauses가 만약,
-	 *	key=>value array로 들어온 경우,
+	 *	key=>value array로 들어온 경우,(ex: Array("WHERE" => "...", "ORDER BY"=>"..."))
 	 *	SELECT columns FROM table key0 value0 key1 value1 ...
 	 *	쿼리를 실행합니다.
 	 * 
@@ -238,6 +244,11 @@
 	 *	쿼리를 실행합니다.
 	 * 
 	 *	쿼리 오류시 디버깅용 오류메시지를 출력합니다.
+	 *
+	 *	@Issue
+	 *	insert 하는 데이터들은 자동으로 PDO::prepare를 거쳐 quote()되어 들어갑니다.
+	 *	따라서 미리 quote를 해서 넣으면 의도와 다르게 입력될 수 있습니다.
+	 *
 	 */
 	function update($table, $set, $clauses=""){
 		assert(gettype($table)=="string");

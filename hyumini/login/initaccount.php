@@ -6,10 +6,12 @@
 	 *	첫 로그인 시, firstlogin.html에서 ajax request를 본 코드로 보내어 
 	 *	새로운 id와 PW를 설정합니다.
 	 * 
+	 *	Update이기 때문에 PUT이 맞겠지만, 핸들링이 다소 번거롭기 때문에 편의상 POST를 사용합니다...
 	 *	@Param(POST)
 	 *	SID: login.html에서 입력받았던 학번
 	 *	newID: 새로 설정할 id
 	 *	newPW: 새로 설정할 pw
+	 *	newEmail: 새로 설정할 email
 	 *
 	 *	@Return(JSON)
 	 *	reason: 변경 실패시의 이유입니다.
@@ -19,6 +21,8 @@
 	 *	Setting Failed	  :  0
 	 *	Exception/Error	  : -1
 	 */
+	http_response_code(400);
+	header("Content-type: application/json");
 	$err = json_encode(Array("reason"=>"Exception/Error", "resultCode"=>-1));
 	if(!isset($_POST["SID"])){
 		echo $err;
@@ -32,25 +36,33 @@
 		echo $err;
 		exit;
 	}
-	$sid = quote($_POST["SID"]);
-	$email = quote($_POST["newID"]."@hanyang.ac.kr");
-	$id = quote($_POST["newID"]);
-	$pw = quote(pwd($_POST["newPW"]));
+	if(!isset($_POST["newEmail"])){
+		echo $err;
+		exit;
+	}
+	$sid = $_POST["SID"];
+	$id = $_POST["newID"];
+	//한양메일에 외부로부터의 메일이 전달되지 않아 otp를 보낼 수 없기 때문에 어쩔 수 없이 유저 입력으로 바꿉니다.
+	//$email = $id."@hanyang.ac.kr";
+	$email = $_POST["newEmail"];
+	$newPW = $_POST["newPW"];
+	$pw = pwd($newPW);
 
 	$table = "User";
 	//1. 진짜 첫 로그인인지 DB조회
-	$clause = "WHERE SID=".$sid." AND ID IS NULL";//해당 학번의 ID필드가 null이면 첫 로그인으로 판정.
+	$clause = "WHERE SID=".quote($sid)." AND ID IS NULL";//해당 학번의 ID필드가 null이면 첫 로그인으로 판정.
 	//만약 검색된 레코드가 1개라면(정상적인 첫 로그인인 경우) 
 	if(counts($table, $clause)==1){
 		//2. id, PW 검증
-		$reason = validation($_POST["newID"], $_POST["newPW"]);
+		$reason = validation($id, $newPW);
 		//새로운 id 와 pw가 모두 valid함
 		if($reason==null){
 			//3. db update
-			$set = Array("id"=>$id, "PW"=>$pw, "email"=>$email);
+			$set = Array("id"=>$id, "pw"=>$pw, "email"=>$email);
 			$cnt = update($table, $set, $clause);
 			//정상적인 update
 			if($cnt==1){
+				http_response_code(200);
 				echo json_encode(Array("resultCode"=>1));
 			}
 			//3a. 만약 update로 영향받은 레코드 갯수가 1개가 아니라면 -1리턴(비정상)
@@ -61,6 +73,7 @@
 		}
 		//invalid
 		else{
+			http_response_code(404);
 			echo json_encode(Array("reason"=>$reason, "resultCode"=>0));
 		}
 	}
@@ -69,6 +82,9 @@
 		echo $err;
 		exit;
 	}
+
+
+
 	/*	2a. 
 	 *	알파뱃과 숫자만으로 이루어지지 않은 id, 
 	 *	숫자만으로 이루어진 id,
@@ -79,7 +95,7 @@
 	 *	정상적이면 null 리턴
 	 */
 	function validation($id, $pw){
-		global $sid;
+		global $sid, $table;
 		$maxLen = 24;
 		$clause = "WHERE id=".quote($id);
 		if(strlen($id)>$maxLen){
@@ -93,7 +109,7 @@
 		}else if(quote($pw)==$sid){
 			return "학번과 동일한 비밀번호는 사용하실 수 없습니다.";
 		}else if(counts($table, $clause)!=0){
-			return "이미 사용되고있는 ID입니다."
+			return "이미 사용되고있는 ID입니다.";
 		}
 		return null;
 	}
