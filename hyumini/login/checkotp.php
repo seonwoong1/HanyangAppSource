@@ -8,18 +8,18 @@
 	 *	DB에서 해당 학번(ID)로 발행된 OTP를 조회하여,
 	 *	1. expired Date가 지났는지 확인하고
 	 *	2. OTP가 매치되는지 확인합니다.
-	 *	3. 1,2를 모두 만족한다면 테이블에서 해당 OTP 레코드를 삭제합니다.
 	 *
 	 *	@Param(GET)
 	 *	id: forgotpw.php에서 입력받은 ID 혹은 학번
-	 *	otp: 사용자로부터 입력받은 otp
+	 *	otp: inputotp에서 사용자로부터 입력받은 otp
 	 *
 	 *	@Return(JSON)
 	 *	reason: 실패한 이유
 	 *	resultCode: 다음과 같습니다.
-	 *	Matched						:  1
-	 *	Not Matched	or OTP Expired	:  0
-	 *	Exception/Error				: -1
+	 *										HTTP Response Code
+	 *	Matched						:  1	200
+	 *	Not Matched	or OTP Expired	:  0	404
+	 *	Exception/Error				: -1	400
 	 */
 	
 	http_response_code(400);
@@ -66,9 +66,9 @@
 //		echo $otp."<br/>";
 		echo json_encode(Array("reason"=>"Incorrect OTP.","resultCode"=>0));
 	}else{
-		deletes($table, $clauses);
+		//deletes($table, $clauses);
 		http_response_code(200);
-		echo json_encode(Array("resultCode"=>1));
+		echo json_encode(Array("resultCode"=>1,"reason"=>null));
 	}
 
 ?>

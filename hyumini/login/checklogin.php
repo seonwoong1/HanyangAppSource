@@ -16,17 +16,18 @@
 	 *	records: 조회한 레코드 정보입니다.
 	 *	resultCode: 리턴 코드는 다음과 같습니다.
 	 *
-	 *	Error			:	-1
-	 *	Fail			:	 0
-	 *	Success			:	 1
-	 *	First Login		:	 2
-	 *	Admin			:	 3
-	 *	Admin & First	:	 4
+	 *								HTTP Response Code
+	 *	Error			:	-1		400/500
+	 *	Fail			:	 0		404
+	 *	Success			:	 1		200
+	 *	First Login		:	 2		200
+	 *	Admin			:	 3		200
+	 *	Admin & First	:	 4		200
 	 *
 	 */
 	http_response_code(400);
 	header("Content-type: application/json");
-	$err = json_encode(Array("resultCode"=>-1));
+	$err = json_encode(Array("resultCode"=>-1,"records"=>null));
 	if(!isset($_GET["id"])){
 		echo $err;
 		exit;
@@ -86,12 +87,12 @@
 	//로그인에 실패한 경우
 	if($resultCode==0){
 		http_response_code(404);
-		echo json_encode(Array("resultCode"=>0));
+		echo json_encode(Array("resultCode"=>0,"records"=>null));
 	}
 	//첫 로그인인 경우 레코드 조회가 필요 없음.
 	else if($resultCode%2==0){
 		http_response_code(200);
-		echo json_encode(Array("resultCode"=>$resultCode));
+		echo json_encode(Array("resultCode"=>$resultCode,"records"=>null));
 	}
 	//그냥 정상적으로 성공한 경우에는 레코드도 조회해서 정보를 넘겨줌.
 	else{

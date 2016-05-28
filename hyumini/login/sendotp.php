@@ -12,30 +12,37 @@
 	 *	@Param(POST)
 	 *	id: forgotpw.php에서 입력받은 ID 혹은 학번
 	 *
-	 *	@Return(TEXT)
-	 *				
-	 *	Success				:  1
-	 *	Failed				:  0
-	 *	Exception/Error		: -1
+	 *	@Return(JSON)
+	 *	resultCode: 다음과 같습니다.			
+	 *	OTP successfully sent	:  1	200
+	 *	Sending OTP failed		:  0	404
+	 *	Exception/Error			: -1	400
 	 */
 
+	//7자리 OTP 생성 함수
 	function generateOTP(){
 		$alnum = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
 		$alnum = str_shuffle($alnum);
 		$otp = substr($alnum, rand(0, 12), 7);
 		$otp = str_shuffle($otp);
-		echo $otp;
+//		echo $otp;
 		return $otp;
 	}
 	
+	//OTP를 메일로 보내는 함수.
 	function sendOTP($mailto, $otp){
-		$subject = "OTP from HYU(e)mini.";
-		$message = "OTP: ".$otp;
-		return mail($mailto, $subject, $message);
+		$subject =	"OTP from HYU ⓔ mini.";
+		$message =	"HYU ⓔ mini OTP: ".$otp;
+		$headers =	'From: hyumini@hanyang.ac.kr' . "\r\n" .
+					'Reply-To: hyumini@hanyang.ac.kr' . "\r\n" .
+					'X-Mailer: PHP/' . phpversion();
+		return mail($mailto, $subject, $message, $headers);
 	}
 	http_response_code(400);
+	header("Content-type: application/json");
+	$err = json_encode(Array("resultCode"=>-1));
 	if(!isset($_POST["id"])){
-		echo -1;
+		echo $err;
 		exit;
 	}
 	$id = quote($_POST["id"]);
@@ -46,10 +53,10 @@
 	//레코드가 없으면 존재하지 않는 ID
 	if($cnt==0){
 		http_response_code(404);
-		echo 0;
+		echo json_encode(Array("resultCode"=>0));
 		exit;
 	}else if($cnt!=1){//1개가 아니면 뭔가 비정상적인 결과
-		echo -1;
+		echo $err;
 		exit;
 	}
 
@@ -60,29 +67,29 @@
 	$clause = "WHERE SID=".$sid;
 	$cnt = counts($table, $clause);
 	$otp = generateOTP();
-	$expire = date("Y-m-d H:i:s", time()+300);
+	$expire = date("Y-m-d H:i:s", time()+1800);
 	if($cnt==0){
 		$params = Array($sid, pwd($otp), $expire);
 		if(insert($table, $params)==-1){
-			echo -1;
+			echo $err;
 			exit;
 		}
 	}else if($cnt==1){
 		$set = Array("OTP"=>pwd($otp), "expire"=>$expire);
 		if(update($table, $set, $clause)!=1){
-			echo -1;
+			echo $err;
 			exit;
 		};
 	}else{
-		echo -1;
+		echo $err;
 		exit;
 	}
 	if(sendOTP($email, $otp)){
 		http_response_code(200);
-		echo 1;
+		echo json_encode(Array("resultCode"=>1));
 	}else{
 		http_response_code(500);
-		echo -1;
+		echo $err;
 	}
 	
 ?>
