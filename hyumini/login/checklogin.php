@@ -101,8 +101,8 @@
 		//따라서 학번, 이름, 이메일만 조회해서 넘겨준다.
 		$columns = Array("SID", "name", "email");
 		$records = selectAll($table, $columns, $clause);
-		
-		$arr = Array("records"=>$records, "resultCode"=>$resultCode);
+
+		$arr = Array("records"=>(array)($records[0]), "resultCode"=>$resultCode);
 		$json = json_encode($arr);
 		http_response_code(200);
 		echo $json;

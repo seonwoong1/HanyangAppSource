@@ -38,6 +38,7 @@
 					'X-Mailer: PHP/' . phpversion();
 		return mail($mailto, $subject, $message, $headers);
 	}
+
 	http_response_code(400);
 	header("Content-type: application/json");
 	$err = json_encode(Array("resultCode"=>-1));
