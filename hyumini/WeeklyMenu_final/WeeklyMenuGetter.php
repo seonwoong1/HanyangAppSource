@@ -1,6 +1,11 @@
 ﻿<?php
-	// curl is an extension that needs to be installed,
-	// php.ini 에서 이 부분 수정 ;extension=php_curl.dll
+	
+	/*
+	 *	Author: 김진희
+	 *
+	 *	@Description
+	 *	식단 데이터를 변수와 배열에 모두 저장합니다.
+	 */
 	
 	
 	

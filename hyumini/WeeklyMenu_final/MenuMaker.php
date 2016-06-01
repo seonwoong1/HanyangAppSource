@@ -1,4 +1,16 @@
 <?php
+	/*
+	 *	Author: 성다혜, 김진희
+	 *	@Description
+	 *	WeeklyMenuGetter.php 를 불러와서,
+	 *	식단 데이터를 변수와 배열에 모두 저장하고,
+	 *	
+	 *	저장한 데이터를 적당한 HTML 태그와 같이 출력합니다.
+	 *	HTML 태그: 성다혜
+	 *	나머지 코드: 김진희
+	 */
+
+
 	include "./WeeklyMenuGetter.php";
 
 
@@ -33,8 +45,8 @@
 				show_foodcourt_menu($menu[3], $price[3], $day_index);
 			}
 			if ( isset($menu[2]) && array_key_exists($time_index, $menu[2] ) )
-			//show_menu_in_time("기숙사 식당", "DormRes", "DormResInfo", $menu[2][$time_index], $price[2][$time_index], $day_index);
-			show_menu_in_time("기숙사 식당", "DormRes", "DormResInfo", $menu[2][$time_index], NULL, $day_index);
+			show_menu_in_time("기숙사 식당", "DormRes", "DormResInfo", $menu[2][$time_index], $price[2][$time_index], $day_index);
+			//show_menu_in_time("기숙사 식당", "DormRes", "DormResInfo", $menu[2][$time_index], NULL, $day_index);
 			if ( isset($menu[4]) && array_key_exists($time_index, $menu[4] ) )
 			show_menu_in_time("창업 보육 센터", "StartupRes", "StartupResInfo", $menu[4][$time_index], $price[4][$time_index], $day_index);
 
@@ -148,7 +160,7 @@
 		{	
 			//echo "<p>k값: $k</p>";
 			//if ($string !="")
-			if ( isset($menu_in_time[$k][$day_index]) )
+			if ( array_key_exists($day_index, $menu_in_time[$k]) )
 			{
 				$string = $menu_in_time[$k][$day_index];
 				echo "<p>{$string}</p>";
@@ -162,19 +174,17 @@
 		echo $string;
 
 		
-		if ( $price_in_time != NULL )
+		$size = count($price_in_time);
+		//echo "<p>$size</p>";
+		for ($k = 0; $k < count($price_in_time); $k++)
 		{
-			$size = count($price_in_time);
-			//echo "<p>$size</p>";
-			for ($k = 0; $k < count($price_in_time); $k++)
+			if ( isset ( $price_in_time[$k][$day_index] ) )
 			{
 				$string = $price_in_time[$k][$day_index];
-				if ($string !="")
-				{
-					echo "<p>{$string}</p>";
-				}
+				echo "<p>{$string}</p>";
 			}
 		}
+	
 
 		$string = '
 				</div>

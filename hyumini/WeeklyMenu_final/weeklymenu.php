@@ -1,6 +1,12 @@
 <!DOCTYPE html>
 
 
+<!--
+	 Author: 성다혜
+	 @Description
+	 식단 데이터를 가져오기 전부터 있을 내용을 정의합니다.
+-->
+
 <html>
 <head>
   <title></title>
