@@ -1,5 +1,5 @@
 <?php
-	require("../db.php");
+	require("../../db.php");
 	/*
 	 *	Author: ¾ÈÀ±±Ù
 	 *	@Description
