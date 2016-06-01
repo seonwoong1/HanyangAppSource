@@ -1,4 +1,19 @@
-﻿$(document).ready(function()
+﻿/*
+	 *	Author: 성다혜, 김진희
+	 *
+	 *	@Description
+	 *	페이지가 열렸을 때 보여지는 것과,
+	 *	페이지 내에 각 버튼을 눌렀을 때의 동작을 설정합니다.
+	 *
+	 *		 
+	 *	16 ~ 45줄: 성다혜
+	 *	46 ~ 190줄: 김진희
+	 */
+
+
+
+
+$(document).ready(function()
 {
 	//var no_hide_time = ".breakfast";
 	//var no_hide_day = ".mon";
