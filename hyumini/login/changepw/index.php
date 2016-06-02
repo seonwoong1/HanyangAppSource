@@ -1,63 +1,75 @@
 <?php
 
-	require_once("../../db.php");
-	
 	/*
-	 *	Author: ¾ÈÀ±±Ù
+	 *	Author: ì•ˆìœ¤ê·¼
 	 *	@Description
-	 *	»ç¿ëÀÚÀÇ pw¸¦ ¹Ù²ãÁÝ´Ï´Ù.
+	 *	í˜„ìž¬ ì„¸ì…˜ì˜ ìœ ì €ì˜ pwë¥¼ ë°”ê¿”ì¤ë‹ˆë‹¤.
 	 *
 	 *	@Param(POST)
-	 *	id: forgotpw.php¿¡¼­ ÀÔ·Â¹ÞÀº ID È¤Àº ÇÐ¹ø
-	 *	newPW: »ç¿ëÀÚ·ÎºÎÅÍ ÀÔ·Â¹ÞÀº otp
+	 *	newPW: ì‚¬ìš©ìžë¡œë¶€í„° ìž…ë ¥ë°›ì€ otp
 	 *
 	 *	@Return(JSON)
-	 *	reason: ½ÇÆÐÇÑ ÀÌÀ¯
-	 *	resultCode: ´ÙÀ½°ú °°½À´Ï´Ù.
+	 *	reason: ì‹¤íŒ¨í•œ ì´ìœ 
+	 *	resultCode: ë‹¤ìŒê³¼ ê°™ìŠµë‹ˆë‹¤.
 	 *											HTTP Response Code
 	 *	Matched						:  1		200
 	 *	Not Matched	or OTP Expired	:  0		404
 	 *	Exception/Error				: -1		400/500
 	 */
 	
+	require_once("../../db.php");
+	
 	function validation($pw){
 		global $table, $clause;
 		$minLen = 8;
 		$id = selectOne($table, "id", $clause);
 		$sid = selectOne($table, "sid", $clause);
+		$oldpw = selectOne($table,"pw",$clause);
 		if($pw==$id)
-			return "ID¿Í µ¿ÀÏÇÑ ºñ¹Ð¹øÈ£´Â »ç¿ëÇÏ½Ç ¼ö ¾ø½À´Ï´Ù.";
+			return "IDì™€ ë™ì¼í•œ ë¹„ë°€ë²ˆí˜¸ëŠ” ì‚¬ìš©í•˜ì‹¤ ìˆ˜ ì—†ìŠµë‹ˆë‹¤.";
 		if($pw==$sid)
-			return "ÇÐ¹ø°ú µ¿ÀÏÇÑ ºñ¹Ð¹øÈ£´Â »ç¿ëÇÏ½Ç ¼ö ¾ø½À´Ï´Ù.";
+			return "í•™ë²ˆê³¼ ë™ì¼í•œ ë¹„ë°€ë²ˆí˜¸ëŠ” ì‚¬ìš©í•˜ì‹¤ ìˆ˜ ì—†ìŠµë‹ˆë‹¤.";
 		if(is_numeric($pw))
-			return "¼ýÀÚ¸¸À¸·Î ÀÌ·ç¾îÁø ÆÐ½º¿öµå´Â »ç¿ëÇÏ½Ç ¼ö ¾ø½À´Ï´Ù.";
+			return "ìˆ«ìžë§Œìœ¼ë¡œ ì´ë£¨ì–´ì§„ íŒ¨ìŠ¤ì›Œë“œëŠ” ì‚¬ìš©í•˜ì‹¤ ìˆ˜ ì—†ìŠµë‹ˆë‹¤.";
 		if(strlen($pw)<$minLen)
-			return "ÃÖ¼Ò ".$minLen."ÀÚ¸®°¡ ³Ñ´Â ÆÐ½º¿öµå¸¦ »ç¿ëÇÏ¼Å¾ß ÇÕ´Ï´Ù.";
+			return "ìµœì†Œ ".$minLen."ìžë¦¬ê°€ ë„˜ëŠ” íŒ¨ìŠ¤ì›Œë“œë¥¼ ì‚¬ìš©í•˜ì…”ì•¼ í•©ë‹ˆë‹¤.";
+		if(pwd($pw)==$oldpw)
+			return "ì´ì „ì— ì‚¬ìš©í•œ íŒ¨ìŠ¤ì›Œë“œëŠ” ì‚¬ìš©í•˜ì‹¤ ìˆ˜ ì—†ìŠµë‹ˆë‹¤.";
 		return null;
 	}
 
 	http_response_code(400);
 	header("Content-type: application/json");
 	$err = json_encode(Array("reason"=>"Exception/Error", "resultCode"=>-1));
-	if(!isset($_POST["id"])){
+
+	//ìž„ì‹œ ì„¸ì…˜ ê²€ì¦
+	session_start();
+	if(!isset($_SESSION["valid"])||!isset($_SESSION["SID"])||!$_SESSION["valid"]){
+		session_destroy();
 		echo $err;
 		exit;
 	}
+
+/*
+	if(!isset($_POST["id"])){
+		echo $err;
+		exit;
+	}*/
 	if(!isset($_POST["newPW"])){
 		echo $err;
 		exit;
 	}
-	$id = quote($_POST["id"]);
+	$sid= quote($_SESSION["SID"]);
 	$pw = $_POST["newPW"];
 
 	$table = "User";
-	$clause = "WHERE id=".$id." OR SID=".$id;
-	$cnt = counts($table,$clause);
-	//¾ø´Â ID.
+	$clause = "WHERE SID = ".$sid;
+	$cnt = counts($table, $clause);
+	//ì—†ëŠ” ID.
 	if($cnt==0){
 		http_response_code(404);
-		echo json_encode(Array("resultCode"=>0,"reason"=>"ID or SID is not exist."));
-	}else if($cnt!=1){//ID°¡ ¿©·¯°³·Î ³ª¿È(ºñÁ¤»ó)
+		echo json_encode(Array("resultCode"=>0,"reason"=>"SID is not exist."));
+	}else if($cnt!=1){//IDê°€ ì—¬ëŸ¬ê°œë¡œ ë‚˜ì˜´(ë¹„ì •ìƒ)
 		echo $err;
 	}else{
 		$reason = validation($pw);
@@ -67,7 +79,7 @@
 		}
 		else{
 			$set = Array("pw"=>pwd($pw));
-			$cnt = update($table,$set,$clause);
+			$cnt = update($table, $set, $clause);
 			if($cnt==1){
 				http_response_code(200);
 				echo json_encode(Array("resultCode"=>1,"reason"=>null));

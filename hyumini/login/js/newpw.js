@@ -4,7 +4,8 @@ document.observe("dom:loaded", function(){
 		console.log($('newPW').value);
 		new Ajax.Request("changepw/", {
 			method: "post",
-			parameters: {id: getURLParameter('id'), newPW: $('newPW').value},
+			//수정(안윤근): id는 checkotp에서 세션으로 받을게요.
+			parameters: {/*id: getURLParameter('id'), */newPW: $('newPW').value},
 			on200: return_success,
 			// onFailure: return_success,
 			// on200:return_success,
@@ -25,11 +26,14 @@ function return_success(ajax){
 	
 }
 
+/* 수정자: 안윤근
+ * Comment: 코드 복붙하지 맙시다...
+ * 그리고 JSON 파싱할 필요 없이 이미 바로 JSON 으로 주고있어요.
+ */
 function matchOTPFailed(ajax){
-	var obj = JSON.parse(ajax.responseText);
+	var obj = ajax.responseJSON;//JSON.parse(ajax.responseText);
 	console.log(obj.reason);
-	$('error').innerHTML = "OTP Expired/Not Match";
-
+	$('error').innerHTML = obj.reason;
 }
 
 function exceptionError(ajax){

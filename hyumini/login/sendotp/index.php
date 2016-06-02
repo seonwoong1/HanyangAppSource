@@ -1,25 +1,25 @@
 <?php
 	require("../../db.php");
 	/*
-	 *	Author: ¾ÈÀ±±Ù
+	 *	Author: ì•ˆìœ¤ê·¼
 	 *	@Description
-	 *	ÆÐ½º¿öµå¸¦ ÀØ¾î¹ö·ÈÀ» ¶§, forgotpw.php¿¡¼­ ajax request¸¦ º¸³»¸é,
-	 *	otp¸¦ »ý¼ºÇÏ¿© ÇÑ¾ç¸ÞÀÏ·Î ¸ÞÀÏÀ» º¸³À´Ï´Ù.
-	 *  otp Å×ÀÌºí¿¡ ÇÐ¹ø°ú otp¸¦ ÀúÀåÇÕ´Ï´Ù.
-	 *	Ã¹ ·Î±×ÀÎµµ ¾ÈÇÑ ÇÐ¹øÀÇ ºñ¹Ð¹øÈ£¸¦ Ã£´Â °æ¿ì´Â º» ÆäÀÌÁö¸¦ È£ÃâÇÏÁö ¾Ê°í forgotpw.php¿¡¼­ ¹Ù·Î Ã³¸®ÇÕ´Ï´Ù.
-	 *  (sendotp.php¿¡¼­ ÇØÁÙ ÀÏÀÌ¶ó°í º¸±â¿¡ ¾î·Æ½À´Ï´Ù.)
+	 *	íŒ¨ìŠ¤ì›Œë“œë¥¼ ìžŠì–´ë²„ë ¸ì„ ë•Œ, forgotpw.phpì—ì„œ ajax requestë¥¼ ë³´ë‚´ë©´,
+	 *	otpë¥¼ ìƒì„±í•˜ì—¬ í•œì–‘ë©”ì¼ë¡œ ë©”ì¼ì„ ë³´ëƒ…ë‹ˆë‹¤.
+	 *  otp í…Œì´ë¸”ì— í•™ë²ˆê³¼ otpë¥¼ ì €ìž¥í•©ë‹ˆë‹¤.
+	 *	ì²« ë¡œê·¸ì¸ë„ ì•ˆí•œ í•™ë²ˆì˜ ë¹„ë°€ë²ˆí˜¸ë¥¼ ì°¾ëŠ” ê²½ìš°ëŠ” ë³¸ íŽ˜ì´ì§€ë¥¼ í˜¸ì¶œí•˜ì§€ ì•Šê³  forgotpw.phpì—ì„œ ë°”ë¡œ ì²˜ë¦¬í•©ë‹ˆë‹¤.
+	 *  (sendotp.phpì—ì„œ í•´ì¤„ ì¼ì´ë¼ê³  ë³´ê¸°ì— ì–´ë µìŠµë‹ˆë‹¤.)
 	 *
 	 *	@Param(POST)
-	 *	id: forgotpw.php¿¡¼­ ÀÔ·Â¹ÞÀº ID È¤Àº ÇÐ¹ø
+	 *	id: forgotpw.phpì—ì„œ ìž…ë ¥ë°›ì€ ID í˜¹ì€ í•™ë²ˆ
 	 *
 	 *	@Return(JSON)
-	 *	resultCode: ´ÙÀ½°ú °°½À´Ï´Ù.			
+	 *	resultCode: ë‹¤ìŒê³¼ ê°™ìŠµë‹ˆë‹¤.			
 	 *	OTP successfully sent	:  1	200
 	 *	Sending OTP failed		:  0	404
 	 *	Exception/Error			: -1	400
 	 */
 
-	//7ÀÚ¸® OTP »ý¼º ÇÔ¼ö
+	//7ìžë¦¬ OTP ìƒì„± í•¨ìˆ˜
 	function generateOTP(){
 		$alnum = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
 		$alnum = str_shuffle($alnum);
@@ -29,10 +29,10 @@
 		return $otp;
 	}
 	
-	//OTP¸¦ ¸ÞÀÏ·Î º¸³»´Â ÇÔ¼ö.
+	//OTPë¥¼ ë©”ì¼ë¡œ ë³´ë‚´ëŠ” í•¨ìˆ˜.
 	function sendOTP($mailto, $otp){
-		$subject =	"OTP from HYU ¨Ñ mini.";
-		$message =	"HYU ¨Ñ mini OTP: ".$otp;
+		$subject =	"OTP from HYU â“” mini.";
+		$message =	"HYU â“” mini OTP: ".$otp;
 		$headers =	'From: hyumini@hanyang.ac.kr' . "\r\n" .
 					'Reply-To: hyumini@hanyang.ac.kr' . "\r\n" .
 					'X-Mailer: PHP/' . phpversion();
@@ -51,12 +51,12 @@
 	$clause = "WHERE id=".$id." OR SID=".$id;
 	$cnt = counts($table, $clause);
 
-	//·¹ÄÚµå°¡ ¾øÀ¸¸é Á¸ÀçÇÏÁö ¾Ê´Â ID
+	//ë ˆì½”ë“œê°€ ì—†ìœ¼ë©´ ì¡´ìž¬í•˜ì§€ ì•ŠëŠ” ID
 	if($cnt==0){
 		http_response_code(404);
 		echo json_encode(Array("resultCode"=>0));
 		exit;
-	}else if($cnt!=1){//1°³°¡ ¾Æ´Ï¸é ¹º°¡ ºñÁ¤»óÀûÀÎ °á°ú
+	}else if($cnt!=1){//1ê°œê°€ ì•„ë‹ˆë©´ ë­”ê°€ ë¹„ì •ìƒì ì¸ ê²°ê³¼
 		echo $err;
 		exit;
 	}

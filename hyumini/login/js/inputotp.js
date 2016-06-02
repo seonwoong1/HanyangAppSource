@@ -11,12 +11,15 @@ document.observe("dom:loaded", function(){
 });
 
 
-
+/* 수정자: 안윤근
+ * Comment: 세션으로 SID받아서 이렇게 위험하게 할 필요 없어요.
+ */
 function return_success(ajax){
 	// json_decode(ajax);
 	console.log("matched");
-	var obj = JSON.parse(ajax.responseText);
-	location.replace("newpw.html?id="+getURLParameter('id'));	
+	var obj = ajax.responseJSON;//JSON.parse(ajax.responseText);
+	//location.replace("newpw.html?id="+getURLParameter('id'));	
+	location.replace("newpw.html");
 }
 
 function matchOTPFailed(ajax){

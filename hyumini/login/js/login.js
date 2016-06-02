@@ -27,7 +27,7 @@ function return_success(ajax){
 
 	if ("1" == obj.resultCode){
 		console.log("success");
-		location.replace("main.html");
+		location.replace("main.php");
 
 	}
 	else if (2 == obj.resultCode){

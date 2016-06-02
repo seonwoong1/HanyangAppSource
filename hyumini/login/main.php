@@ -1,4 +1,11 @@
 <!DOCTYPE html>
+<?php
+session_start();
+if(!isset($_SESSION["studentInfo"])) {
+	echo "<meta http-equiv='refresh' content='0;url=login.html'>";
+	exit;
+}
+?>
 <html>
 	<head>
 	<!-- Latest compiled and minified CSS -->
@@ -17,7 +24,8 @@
 		<div><h3 id="title">HANYANG ERICA</h3></div>
 
 		<p>MAIN</p>
-		
+		<p><?php print_r($_SESSION["studentInfo"]) ?></p>
+
 	</div>
 	</body>
 </html>
