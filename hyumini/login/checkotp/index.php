@@ -1,21 +1,21 @@
 <?php
-	require("../db.php");
+	require_once("../../db.php");
 	
 	/*
-	 *	Author: ¾ÈÀ±±Ù
+	 *	Author: ì•ˆìœ¤ê·¼
 	 *	@Description
-	 *	inputotp.php¿¡¼­ ÇÐ¹ø(ID)¿Í »ç¿ëÀÚ¿¡°Ô ÀÔ·Â¹ÞÀº OTP¸¦ ajax request·Î º¸³»¸é,
-	 *	DB¿¡¼­ ÇØ´ç ÇÐ¹ø(ID)·Î ¹ßÇàµÈ OTP¸¦ Á¶È¸ÇÏ¿©,
-	 *	1. expired Date°¡ Áö³µ´ÂÁö È®ÀÎÇÏ°í
-	 *	2. OTP°¡ ¸ÅÄ¡µÇ´ÂÁö È®ÀÎÇÕ´Ï´Ù.
+	 *	inputotp.phpì—ì„œ í•™ë²ˆ(ID)ì™€ ì‚¬ìš©ìžì—ê²Œ ìž…ë ¥ë°›ì€ OTPë¥¼ ajax requestë¡œ ë³´ë‚´ë©´,
+	 *	DBì—ì„œ í•´ë‹¹ í•™ë²ˆ(ID)ë¡œ ë°œí–‰ëœ OTPë¥¼ ì¡°íšŒí•˜ì—¬,
+	 *	1. expired Dateê°€ ì§€ë‚¬ëŠ”ì§€ í™•ì¸í•˜ê³ 
+	 *	2. OTPê°€ ë§¤ì¹˜ë˜ëŠ”ì§€ í™•ì¸í•©ë‹ˆë‹¤.
 	 *
 	 *	@Param(GET)
-	 *	id: forgotpw.php¿¡¼­ ÀÔ·Â¹ÞÀº ID È¤Àº ÇÐ¹ø
-	 *	otp: inputotp¿¡¼­ »ç¿ëÀÚ·ÎºÎÅÍ ÀÔ·Â¹ÞÀº otp
+	 *	id: forgotpw.phpì—ì„œ ìž…ë ¥ë°›ì€ ID í˜¹ì€ í•™ë²ˆ
+	 *	otp: inputotpì—ì„œ ì‚¬ìš©ìžë¡œë¶€í„° ìž…ë ¥ë°›ì€ otp
 	 *
 	 *	@Return(JSON)
-	 *	reason: ½ÇÆÐÇÑ ÀÌÀ¯
-	 *	resultCode: ´ÙÀ½°ú °°½À´Ï´Ù.
+	 *	reason: ì‹¤íŒ¨í•œ ì´ìœ 
+	 *	resultCode: ë‹¤ìŒê³¼ ê°™ìŠµë‹ˆë‹¤.
 	 *										HTTP Response Code
 	 *	Matched						:  1	200
 	 *	Not Matched	or OTP Expired	:  0	404
@@ -69,6 +69,11 @@
 		//deletes($table, $clauses);
 		http_response_code(200);
 		echo json_encode(Array("resultCode"=>1,"reason"=>null));
+		
+		//ë³´ì•ˆì„ ìœ„í•´ ìž„ì‹œ ì„¸ì…˜ ë§Œë“¤ì–´ì£¼ê¸°
+		session_start();
+		$_SESSION["SID"] = $sid;
+		$_SESSION["valid"]=true;
 	}
 
 ?>
