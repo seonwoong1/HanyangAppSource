@@ -2,9 +2,9 @@
 
 	/* 
 	 * @Authorship
-	 * Origin: http://phpexcel.codeplex.com/
-	 * Bring : 성다혜
-	 * Modify: 안윤근
+	 * Origin	: http://phpexcel.codeplex.com/
+	 * Bring	: 성다혜
+	 * ReWrite	: 안윤근
 	 * 
 	 * @Description
 	 * PHP에서 Excel파일을 로드하여 파싱하는 모듈입니다.
@@ -18,12 +18,11 @@
 
 	function getValue($cell){
 		return $cell->getCalculatedValue();
-		//return iconv("EUC-KR","UTF-8",$cell->getCalculatedValue());
 	}
 
 	function getTimeValue($cell){
-		$time = PHPExcel_Style_NumberFormat::toFormattedString($cell->getCalculatedValue(), 'hh:mm');
-		return iconv("UTF-8", "EUC-KR", $time);
+		$time = PHPExcel_Style_NumberFormat::toFormattedString(getValue($cell), 'hh:mm');
+		return $time;
 	}
 
 	function getExcel($filename){
@@ -88,7 +87,18 @@
 		return $table;
 	}
 
-
+	function getCellsInColumn($column, $sheet){
+		$table = getTable($sheet);
+		if(gettype($table)=="integer" && $table==-1){
+			return -1;
+		}else if($table==null){
+			return -1;
+		}
+		if(!isset($table[$column])){
+			return -1;
+		}
+		return $table[$column];
+	}
 
 	
 ?>

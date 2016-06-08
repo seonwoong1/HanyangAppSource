@@ -14,15 +14,17 @@
 	 *
 	 * @Return(JSON)
 	 * resultTable: 버스 시간표 2차원 연관 배열
-	 * e.g., (context = "choice") 셔틀콕<->한대앞
+	 * e.g., context = "choice", choice="학기중_한대앞"
 	 *  {
-	 *		"cock"=>{"8:40","9:00","9:20",...},
-	 *		"subway"=>{"8:30","8:50","9:10",...}
+	 *		"셔틀콕" : ["8:40", "9:00", "9:20", ...],
+	 *		"한대앞" : ["8:30", "8:50", "9:10", ...]
 	 *	}
 	 * e.g., context = "now"
 	 *  {
-	 *		"subway" : {"cock"=>"8:50", "subway"=>"9:00"}, //셔틀콕 <-> 한대앞
-	 *		"terminal":{"cock"=>"8:55", "terminal"=>"9:05"}//셔틀콕 <-> 예술인
+	 *		//셔틀콕 <-> 한대앞 노선에서 가장 가까운 버스가 도착하는 시간
+	 *		"셔틀콕_한대앞" : {"셔틀콕" : "8:50", "한대앞" : "9:00"}, 
+	 *		//셔틀콕 <-> 예술인 노선에서 가장 가까운 버스가 도착하는 시간
+	 *		"셔틀콕_예술인" : {"셔틀콕" : "8:55", "예술인" : "9:05"}  
 	 *	}
 	 * resultCode: 다음과 같습니다.
 	 *							http response code
@@ -173,22 +175,20 @@
 		}
 		
 		$result["resultTable"]=$currentTimeInfo;
-		$result["resultCode"]=1;
-		http_response_code(200);
-		echo json_encode($result);
 		
 	}else if($context=="choice"){
 		$sheet = getSheetByName($choice);
 		$table = getTable($sheet);
 		$result["resultTable"]=$table;
-		$result["resultCode"]=1;
-		http_response_code(200);
-		echo json_encode($result);
+		
 	}else{
 		echo $err;
 		exit;
 	}
 
+	$result["resultCode"]=1;
+	http_response_code(200);
+	echo json_encode($result);
 
 
 	//시트를 가져올 때 마다 반복되는 예외처리를 위해 작성한 함수
