@@ -14,17 +14,17 @@
 	 *
 	 * @Return(JSON)
 	 * resultTable: 버스 시간표 2차원 연관 배열
-	 * e.g., context = "choice", choice="학기중_한대앞"
+	 * e.g., context = "choice", choice="학기중_한대앞역"
 	 *  {
 	 *		"셔틀콕" : ["8:40", "9:00", "9:20", ...],
-	 *		"한대앞" : ["8:30", "8:50", "9:10", ...]
+	 *		"한대앞역" : ["8:30", "8:50", "9:10", ...]
 	 *	}
 	 * e.g., context = "now"
 	 *  {
-	 *		//셔틀콕 <-> 한대앞 노선에서 가장 가까운 버스가 도착하는 시간
-	 *		"셔틀콕_한대앞" : {"셔틀콕" : "8:50", "한대앞" : "9:00"}, 
-	 *		//셔틀콕 <-> 예술인 노선에서 가장 가까운 버스가 도착하는 시간
-	 *		"셔틀콕_예술인" : {"셔틀콕" : "8:55", "예술인" : "9:05"}  
+	 *		//셔틀콕 <-> 한대앞역 노선에서 가장 가까운 버스가 도착하는 시간
+	 *		"셔틀콕_한대앞역" : {"셔틀콕" : "8:50", "한대앞역" : "9:00"}, 
+	 *		//셔틀콕 <-> 예술인A 노선에서 가장 가까운 버스가 도착하는 시간
+	 *		"셔틀콕_예술인A" : {"셔틀콕" : "8:55", "예술인A" : "9:05"}  
 	 *	}
 	 * resultCode: 다음과 같습니다.
 	 *							http response code
@@ -38,18 +38,22 @@
 	require_once("../db.php");
 	http_response_code(400);
 	$err = json_encode(Array("resultTable"=>null, "resultCode"=>-1));
-	if( !isset( $_GET["context"] ) ){
+	if(!isset($_GET["context"])){
 		echo $err;
 		exit;
 	}
 
-	if( $_GET["context"]=="choice" && !isset( $_GET["choice"] ) ){
+	if($_GET["context"]=="choice" && !isset($_GET["choice"])){
 		echo $err;
 		exit;
 	}
+
+	if($_GET["context"]=="choice"){
+		$choice = $_GET["choice"];
+	}
+	
 
 	$context = $_GET["context"];
-	$choice = $_GET["choice"];
 	
 	$filename = "./shuttle.xlsx"; 
 	$excel = getExcel($filename);
@@ -64,7 +68,7 @@
 		/*
 		현재 날짜를 기준으로 db의 학기 구분을 가져온다.
 		db의 학기 구분을 기준으로 학기를 잡고, 평일인지 주말인지 판단,
-		평일인경우 셔틀콕-한대앞 시간표의 맨 마지막 시간을 가져와서 그 이하라면 
+		평일인경우 셔틀콕-한대앞역 시간표의 맨 마지막 시간을 가져와서 그 이하라면 
 		시트 이름을 판단하고 
 		{
 			"subway" : {"cock"=>"8:50", "subway"=>"9:00"}, 
@@ -121,7 +125,7 @@
 			}
 			$currentTimeInfo["순환"] = array();
 		}else{//평일인 경우
-			$sheetName.="_한대앞";
+			$sheetName.="_한대앞역";
 			$sheet = getSheetByName($sheetName);
 			$table = getTable($sheet);
 			if(gettype($table)=="integer" && $table==-1){
@@ -129,7 +133,7 @@
 				exit;
 			}
 
-			$lastTime = $table["한대앞"][count($table["한대앞"])-1];
+			$lastTime = $table["한대앞역"][count($table["한대앞역"])-1];
 			$nowTimeSec = strtotime($nowTime.":00");
 			$lastTimeSec = strtotime($lastTime.":00");
 			
@@ -138,15 +142,15 @@
 			if($nowTimeSec>$lastTimeSec){
 				$sheetName = $temp[0]."_평일순환";
 				$currentTimeInfo["순환"] = array();
-			}else{//한대앞, 예술인
-				$sheetName2 = $temp[0]."_예술인";
-				$currentTimeInfo["셔틀콕_한대앞"] = array();
-				$currentTimeInfo["셔틀콕_예술인"] = array();
+			}else{//한대앞역, 예술인A
+				$sheetName2 = $temp[0]."_예술인A";
+				$currentTimeInfo["셔틀콕_한대앞역"] = array();
+				$currentTimeInfo["셔틀콕_예술인A"] = array();
 			}
 		}
 		
 		$sheetNames = array($sheetName,$sheetName2);
-		$courses = array("셔틀콕_한대앞","셔틀콕_예술인");
+		$courses = array("셔틀콕_한대앞역","셔틀콕_예술인A");
 		$nowSec = strtotime($nowTime.":00");
 		for($i=0;$i<2;$i++){
 			$sName = $sheetNames[$i];
