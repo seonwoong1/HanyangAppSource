@@ -13,8 +13,8 @@
 	 */
 
 	//PHPExcel.php, IOFactory.php are Required.
-	require_once("./Classes/PHPExcel.php"); 
-	require_once("./Classes/PHPExcel/IOFactory.php");
+	require_once("./lib/Classes/PHPExcel.php"); 
+	require_once("./lib/Classes/PHPExcel/IOFactory.php");
 
 	function getValue($cell){
 		return $cell->getCalculatedValue();

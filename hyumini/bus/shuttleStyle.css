@@ -1,0 +1,99 @@
+.panel{
+    background-color: #7EA6E0;
+}
+.panel-body{
+  padding: 0px;
+}
+.panel-heading{
+  background-color: #7EA6E0;
+}
+
+.nav-justified>li{
+  width:50%;
+  float:left;
+  background-color: azure;
+}
+
+.shuttleBus>p{
+  font-size: 20px;
+  text-decoration:underline;
+  font-weight:bold;
+  margin-top:10px;
+  margin-bottom: 10px;
+}
+
+.commuteBus>p{
+  font-size: 20px;
+  text-decoration:underline;
+  font-weight:bold;
+  margin-top:10px;
+  margin-bottom: 10px;
+}
+
+.commuteBus1>p{
+  font-size: 20px;
+  text-decoration:underline;
+  font-weight:bold;
+  margin-top:10px;
+  margin-bottom: 10px;
+}
+
+.commuteBus2>p{
+  font-size: 20px;
+  text-decoration:underline;
+  font-weight:bold;
+  margin-top:10px;
+  margin-bottom: 10px;
+}
+
+.commuteBus:nth-child(3)>p{
+  margin-top:30px;
+}
+
+
+
+.alert-info{
+  margin-bottom: 0px;
+}
+
+.commuteBus span{
+  margin-left: 10px;
+}
+
+
+.shuttleBus span{
+  margin-left: 10px;
+}
+
+.btnGroup, .btn-seperated-group{
+  text-align: center;
+}
+
+.btn-seperated-group, .btn-group{
+  margin-top: 18px;
+  width:100%;
+  margin-left: 1px;
+  margin-right: 1px;
+}
+
+.btn-seperate{
+  margin-left: 10px;
+  margin-right: 10px;
+}
+.btn-info{
+  width:100%;
+}
+.selectSeme .btn-shuttle{
+	width:33.333333%;
+	float:left;
+  text-align: center;
+
+}
+.selectCourse .btn-shuttle{
+  width:33.333333%;
+  float:left;
+  text-align: center;
+}
+.selectSeme{
+  margin-right : 15px;
+}

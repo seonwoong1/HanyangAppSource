@@ -32,7 +32,7 @@ $(document).ready(function(){
 					var td_head = $(document.createElement("td"));
 
 					td_head.attr("colspan", stations.length);
-					td_head.text(course);
+					td_head.text(course.replace("_","에서 "));
 					tr_head.append(td_head);
 					nowTable.append(tr_head);
 
