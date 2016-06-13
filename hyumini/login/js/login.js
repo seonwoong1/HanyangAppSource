@@ -21,31 +21,25 @@ function for500(ajax){
 	console.log("what");
 }
 
+/*
+ * @Author
+ * 우승연, 안윤근(리팩토링)
+ * @Description
+ * 링크 수정하는 김에 리팩토링까지 했습니다.
+ */
 function return_success(ajax){
-	// json_decode(ajax);
-	var obj = JSON.parse(ajax.responseText);
-
-	if ("1" == obj.resultCode){
-		console.log("success");
-		location.replace("main.php");
-
-	}
-	else if (2 == obj.resultCode){
-		console.log("first login");
-		location.replace("firstlogin.html");
-	}
-	else if (3 == obj.resultCode){
-		console.log("admin");
-		location.replace("managermain.html");
-
-	}
-	else if (4 == obj.resultCode){
-		console.log("admin and first");
-		location.replace("firstlogin.html");
-
-	}
-	else{
-		console.log("errrrrrrrrrr!!!!!!!!!");
+	var obj = ajax.responseJSON;
+	switch(obj.resultCode*1){
+		case 1:
+		case 3:
+			location.replace("../main/main.html");
+			break;
+		case 2:
+		case 4:
+			location.replace("firstlogin.html?SID="+$("id").value);
+			break;
+		default:
+			console.log("err!");
 	}
 }
 

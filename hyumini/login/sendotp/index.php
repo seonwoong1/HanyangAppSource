@@ -1,5 +1,5 @@
 <?php
-	require("../../db.php");
+	require_once("../../db.php");
 	/*
 	 *	Author: 안윤근
 	 *	@Description
@@ -41,7 +41,7 @@
 
 	http_response_code(400);
 	header("Content-type: application/json");
-	$err = json_encode(Array("resultCode"=>-1));
+	$err = json_encode(Array("reason"=>"Exception/Error","resultCode"=>-1));
 	if(!isset($_POST["id"])){
 		echo $err;
 		exit;
@@ -54,7 +54,7 @@
 	//레코드가 없으면 존재하지 않는 ID
 	if($cnt==0){
 		http_response_code(404);
-		echo json_encode(Array("resultCode"=>0));
+		echo json_encode(Array("reason"=>"The ID/SID does not exist.","resultCode"=>0));
 		exit;
 	}else if($cnt!=1){//1개가 아니면 뭔가 비정상적인 결과
 		echo $err;
@@ -87,7 +87,7 @@
 	}
 	if(sendOTP($email, $otp)){
 		http_response_code(200);
-		echo json_encode(Array("resultCode"=>1));
+		echo json_encode(Array("reason"=>"Send OTP S","resultCode"=>1));
 	}else{
 		http_response_code(500);
 		echo $err;
