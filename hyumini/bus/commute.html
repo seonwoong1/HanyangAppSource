@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title></title>
+  <meta charset="utf-8">
+  <!-- Latest compiled and minified CSS -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+
+  <link rel="stylesheet" type="text/css" href="shuttleStyle.css">
+
+  <!-- Optional theme -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css" integrity="sha384-fLW2N01lMqjakBkx3l/M9EahuwpSfeNvV63J5ezn3uZzapT0u7EYsXMjQV+0En5r" crossorigin="anonymous">
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
+
+  <script type="text/javascript" src="commute_table.js"></script>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
+</head>
+
+<body class="panel panel-info panel-default">
+
+<!-- <div class="panel panel-default"> -->
+  <div class="panel-heading">
+    <h3 class="panel-title">HYU(e)mini</h3>
+  </div>
+  <div class="panel-body">
+    <nav>
+      <ul class="nav nav-justified">
+        <li class="active"><a href="shuttle.html">Shuttle</a></li> <!-- 이거를 링크걸어야 함! -->
+        <li><a href="#">Commute</a></li>
+      </ul>
+    </nav>
+
+    <div class="commuteBus">
+      <p>To Univ</p>
+      <button type="button" class="btn btn-info toUnivBuBu">부평,부천
+        <span class="glyphicon glyphicon-triangle-bottom toUnivBuBuSp" aria-hidden="true"></span>
+      </button>
+      <div class="alert alert-info toUnivBuBuInfo" role="alert"></div>
+
+      <button type="button" class="btn btn-info toUnivHwaIl">화정,일산
+        <span class="glyphicon glyphicon-triangle-bottom toUnivHwaIlSp" aria-hidden="true"></span>
+      </button>
+      <div class="alert alert-info toUnivHwaIlInfo" role="alert"></div>
+
+      <button type="button" class="btn btn-info toUnivGongHwa">공항,화곡
+        <span class="glyphicon glyphicon-triangle-bottom toUnivGongHwaSp" aria-hidden="true"></span>
+      </button>
+      <div class="alert alert-info toUnivGongHwaInfo" role="alert"></div>
+
+      <button type="button" class="btn btn-info toUnivGangSa">강남,사당
+        <span class="glyphicon glyphicon-triangle-bottom toUnivGangSaSp" aria-hidden="true"></span>
+      </button>
+      <div class="alert alert-info toUnivGangSaInfo" role="alert"></div>
+
+      <button type="button" class="btn btn-info toUnivMyungZam">명일,잠실
+        <span class="glyphicon glyphicon-triangle-bottom toUnivMyungZamSp" aria-hidden="true"></span>
+      </button>
+      <div class="alert alert-info toUnivMyungZamInfo" role="alert"></div>
+
+      <button type="button" class="btn btn-info toUnivBoonSu">분당,수지
+        <span class="glyphicon glyphicon-triangle-bottom toUnivBoonSuSp" aria-hidden="true"></span>
+      </button>
+      <div class="alert alert-info toUnivBoonSuInfo" role="alert"></div>
+
+      <button type="button" class="btn btn-info toUnivSinJook">신갈,죽전
+        <span class="glyphicon glyphicon-triangle-bottom toUnivSinJookSp" aria-hidden="true"></span>
+      </button>
+      <div class="alert alert-info toUnivSinJookInfo" role="alert"></div>
+
+      <button type="button" class="btn btn-info toUnivDangMok">당산,목동
+        <span class="glyphicon glyphicon-triangle-bottom toUnivDangMokSp" aria-hidden="true"></span>
+      </button>
+      <div class="alert alert-info toUnivDangMokInfo" role="alert"></div>
+
+      <button type="button" class="btn btn-info toUnivBongSin">봉천,신림
+        <span class="glyphicon glyphicon-triangle-bottom toUnivBongSinSp" aria-hidden="true"></span>
+      </button>
+      <div class="alert alert-info toUnivBongSingInfo" role="alert"></div>
+
+    </div>
+
+    <div class="commuteBus1">
+      <p>To home 17:40</p>
+      <button type="button" class="btn btn-info toHomeBuBu">부평,부천
+        <span class="glyphicon glyphicon-triangle-bottom toHomeBuBuSp" aria-hidden="true"></span>
+      </button>
+      <div class="alert alert-info toHomeBuBuInfo" role="alert"></div>
+
+      <button type="button" class="btn btn-info toHomeHwa">화정,일산
+        <span class="glyphicon glyphicon-triangle-bottom toHomeHwaIlSp" aria-hidden="true"></span>
+      </button>
+      <div class="alert alert-info toHomeHwaIlInfo" role="alert"></div>
+
+      <button type="button" class="btn btn-info toHomeHwaGwang">화곡,광명
+        <span class="glyphicon glyphicon-triangle-bottom toHomeHwaGwangSp" aria-hidden="true"></span>
+      </button>
+      <div class="alert alert-info toHomeHwaGwangInfo" role="alert"></div>
+
+      <button type="button" class="btn btn-info toHomeGangSa">강남,사당
+        <span class="glyphicon glyphicon-triangle-bottom toHomeGangSaSp" aria-hidden="true"></span>
+      </button>
+      <div class="alert alert-info toHomeGangSaInfo" role="alert"></div>
+
+      <button type="button" class="btn btn-info toHomeMyungZamSung">명일,잠실,성남
+        <span class="glyphicon glyphicon-triangle-bottom toHomeMyungZamSungSp" aria-hidden="true"></span>
+      </button>
+      <div class="alert alert-info toHomeMyungZamSungInfo" role="alert"></div>
+
+      <button type="button" class="btn btn-info toHomeBoonSoo">분당,수지
+        <span class="glyphicon glyphicon-triangle-bottom toHomeBoonSooSp" aria-hidden="true"></span>
+      </button>
+      <div class="alert alert-info toHomeBoonSooInfo" role="alert"></div>
+
+      <button type="button" class="btn btn-info toHomeSinSi">신촌,시흥
+        <span class="glyphicon glyphicon-triangle-bottom toHomeSinSiSp" aria-hidden="true"></span>
+      </button>
+      <div class="alert alert-info toHomeSinSiInfo" role="alert"></div>
+    </div>
+
+    <div class="commuteBus2">
+      <p>To home 22:00</p>
+      <button type="button" class="btn btn-info toHomeYoungGwang">영등포,광명
+        <span class="glyphicon glyphicon-triangle-bottom toHomeYoungGwangSp" aria-hidden="true"></span>
+      </button>
+      <div class="alert alert-info toHomeYoungGwangInfo" role="alert"></div>
+
+      <button type="button" class="btn btn-info toHomeZamSa">잠실,사당
+        <span class="glyphicon glyphicon-triangle-bottom toHomeZamSaSp" aria-hidden="true"></span>
+      </button>
+      <div class="alert alert-info toHomeZamSaInfo" role="alert"></div>
+
+    </div>
+
+  </div>
+<!-- </div> -->
+</body>
+</html>

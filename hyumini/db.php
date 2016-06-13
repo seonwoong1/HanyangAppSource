@@ -33,7 +33,8 @@
 
 	//DB 연결을 위한 attribute들
 	$dbkind = "mysql";
-	$host = "127.0.0.1";
+	//$host = "127.0.0.1";
+	$host = "selab.hanyang.ac.kr";
 	$dbname = "hyumini";
 
 	$dsn = $dbkind.":host=".$host.";dbname=".$dbname;
