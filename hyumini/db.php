@@ -33,8 +33,7 @@
 
 	//DB 연결을 위한 attribute들
 	$dbkind = "mysql";
-	//$host = "127.0.0.1";
-	$host = "selab.hanyang.ac.kr";
+	$host = "127.0.0.1";
 	$dbname = "hyumini";
 
 	$dsn = $dbkind.":host=".$host.";dbname=".$dbname;
@@ -307,7 +306,7 @@
 	 * 
 	 *	쿼리 오류시 디버깅용 오류메시지를 출력합니다.
 	 */
-	function deletes($table, $clauses){
+	function deletes($table, $clauses=""){
 		assert(gettype($table)=="string");
 		assert(gettype($clauses)=="array" || gettype($clauses)=="string");
 

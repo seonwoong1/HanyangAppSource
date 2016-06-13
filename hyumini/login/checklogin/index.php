@@ -99,7 +99,7 @@
 		//ID와 PW는 넘겨줄 필요 없음.
 		//어차피 master는 resultCode로 관리자인지 아닌지 알 수 있음.
 		//따라서 학번, 이름, 이메일만 조회해서 넘겨준다.
-		$columns = Array("SID", "name", "email");
+		$columns = Array("SID", "name", "email", "master");
 		$records = selectAll($table, $columns, $clause);
 
 		$arr = Array("records"=>(array)($records[0]), "resultCode"=>$resultCode);
