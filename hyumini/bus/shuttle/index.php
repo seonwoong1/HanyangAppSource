@@ -34,8 +34,8 @@
 	 * 
 	 */
 
-	require_once("./excel.php"); 
-	require_once("../db.php");
+	require_once("../excel.php"); 
+	require_once("../../db.php");
 	http_response_code(400);
 	$err = json_encode(Array("resultTable"=>null, "resultCode"=>-1));
 	if(!isset($_GET["context"])){
@@ -55,7 +55,7 @@
 
 	$context = $_GET["context"];
 	
-	$filename = "./shuttle.xlsx"; 
+	$filename = "../excel/shuttle.xlsx"; 
 	$excel = getExcel($filename);
 	if(gettype($excel)=="integer" && $excel==-1){
 		echo $err;
