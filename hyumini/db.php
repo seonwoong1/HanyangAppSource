@@ -1,18 +1,18 @@
 <?php
 
 	/* 
-	 *	Author: ¾ÈÀ±±Ù 
+	 *	Author: ì•ˆìœ¤ê·¼ 
 	 *	Description:
-	 *	db.php´Â PDO¸¦ »ç¿ëÇÏ¿© DatabaseÃ³¸®ÀÇ Àü¹İÀûÀÎ CRUD ±âº»±â´ÉµéÀ» ÀÏ¹İÈ­ÇÏ¿© »ç¿ëÇÏ±â ÆíÇÏ°Ô ±¸ÇöÇÑ ¶óÀÌºê·¯¸®ÀÔ´Ï´Ù. 
-	 *	¿Ø¸¸ÇÑ ºÎºĞ¿¡¼­´Â prepare¸¦ »ç¿ëÇÏ¿© ±âº»ÀûÀÎ Injection¿¡ ´ëºñ¸¦ ÇßÀ¸³ª, 
-	 *	±×·³¿¡µµ ºÒ±¸ÇÏ°í º¸¾È¿¡ ´Ù¼Ò Ãë¾àÇÒ ¼ö ÀÖÀ¸´Ï ±âº»ÀûÀÎ ÀÔ·Â°ª°ËÁõÀº ¹Ì¸® ÇÏ½Ã°í »ç¿ëÇÏ½Ã±æ ¹Ù¶ø´Ï´Ù.
+	 *	db.phpëŠ” PDOë¥¼ ì‚¬ìš©í•˜ì—¬ Databaseì²˜ë¦¬ì˜ ì „ë°˜ì ì¸ CRUD ê¸°ë³¸ê¸°ëŠ¥ë“¤ì„ ì¼ë°˜í™”í•˜ì—¬ ì‚¬ìš©í•˜ê¸° í¸í•˜ê²Œ êµ¬í˜„í•œ ë¼ì´ë¸ŒëŸ¬ë¦¬ì…ë‹ˆë‹¤. 
+	 *	ì™ ë§Œí•œ ë¶€ë¶„ì—ì„œëŠ” prepareë¥¼ ì‚¬ìš©í•˜ì—¬ ê¸°ë³¸ì ì¸ Injectionì— ëŒ€ë¹„ë¥¼ í–ˆìœ¼ë‚˜, 
+	 *	ê·¸ëŸ¼ì—ë„ ë¶ˆêµ¬í•˜ê³  ë³´ì•ˆì— ë‹¤ì†Œ ì·¨ì•½í•  ìˆ˜ ìˆìœ¼ë‹ˆ ê¸°ë³¸ì ì¸ ì…ë ¥ê°’ê²€ì¦ì€ ë¯¸ë¦¬ í•˜ì‹œê³  ì‚¬ìš©í•˜ì‹œê¸¸ ë°”ëë‹ˆë‹¤.
 	 */
 
 	error_reporting(E_ALL);
 	ini_set("display_errors", 1);
 	
 	/* 
-	 *	assert_option°ú handler ÄÚµå´Â php.netÀÇ ¿¹Á¦¿¡¼­ °¡Á®¿Ô½À´Ï´Ù. 
+	 *	assert_optionê³¼ handler ì½”ë“œëŠ” php.netì˜ ì˜ˆì œì—ì„œ ê°€ì ¸ì™”ìŠµë‹ˆë‹¤. 
 	 *	http://php.net/manual/kr/function.assert.php	
 	 */
 	assert_options(ASSERT_ACTIVE, 1);
@@ -31,7 +31,7 @@
 	// Set up the callback
 	assert_options(ASSERT_CALLBACK, 'my_assert_handler');
 
-	//DB ¿¬°áÀ» À§ÇÑ attributeµé
+	//DB ì—°ê²°ì„ ìœ„í•œ attributeë“¤
 	$dbkind = "mysql";
 	$host = "127.0.0.1";
 	$dbname = "hyumini";
@@ -44,30 +44,30 @@
 	$pdo = new PDO($dsn, $user, $passwd, $conf);
 
 	/* 
-	 *	Author: ¾ÈÀ±±Ù 
+	 *	Author: ì•ˆìœ¤ê·¼ 
 	 *	@Params
-	 *	string table: tableÀÌ¸§
-	 *	[array columns: ÇÊµå ÀÌ¸§µé]
-	 *	array params: insertÇÒ ·¹ÄÚµåÀÇ ÆÄ¶ó¹ÌÅÍµé
+	 *	string table: tableì´ë¦„
+	 *	[array columns: í•„ë“œ ì´ë¦„ë“¤]
+	 *	array params: insertí•  ë ˆì½”ë“œì˜ íŒŒë¼ë¯¸í„°ë“¤
 	 *
 	 *	@Return
 	 *	OnSuccess: 0
 	 *	OnFailure: -1
 	 *
 	 *	@Description
-	 *	±âº»ÀûÀÎ insert Äõ¸®¸¦ Áö¿øÇÕ´Ï´Ù.
-	 *	ÄÃ·³¸íµéÀ» ÁöÁ¤ÇÑ´Ù¸é Insert into tableName(ÄÃ·³µé) values(ÆÄ¶ó¹ÌÅÍµé) Äõ¸®¸¦ ½ÇÇàÇÕ´Ï´Ù.
-	 *	ÁöÁ¤ÇÏÁö ¾Ê°í ÆÄ¶ó¹ÌÅÍµé¸¸ ÁöÁ¤ÇÑ´Ù¸é Insert into tableName values(ÆÄ¶ó¹ÌÅÍµé) Äõ¸®¸¦ ½ÇÇàÇÕ´Ï´Ù.
-	 *	Äõ¸® ¿À·ù½Ã µğ¹ö±ë¿ë ¿À·ù¸Ş½ÃÁö¸¦ Ãâ·ÂÇÕ´Ï´Ù.
+	 *	ê¸°ë³¸ì ì¸ insert ì¿¼ë¦¬ë¥¼ ì§€ì›í•©ë‹ˆë‹¤.
+	 *	ì»¬ëŸ¼ëª…ë“¤ì„ ì§€ì •í•œë‹¤ë©´ Insert into tableName(ì»¬ëŸ¼ë“¤) values(íŒŒë¼ë¯¸í„°ë“¤) ì¿¼ë¦¬ë¥¼ ì‹¤í–‰í•©ë‹ˆë‹¤.
+	 *	ì§€ì •í•˜ì§€ ì•Šê³  íŒŒë¼ë¯¸í„°ë“¤ë§Œ ì§€ì •í•œë‹¤ë©´ Insert into tableName values(íŒŒë¼ë¯¸í„°ë“¤) ì¿¼ë¦¬ë¥¼ ì‹¤í–‰í•©ë‹ˆë‹¤.
+	 *	ì¿¼ë¦¬ ì˜¤ë¥˜ì‹œ ë””ë²„ê¹…ìš© ì˜¤ë¥˜ë©”ì‹œì§€ë¥¼ ì¶œë ¥í•©ë‹ˆë‹¤.
 	 *
 	 *	@Issue
-	 *	insert ÇÏ´Â µ¥ÀÌÅÍµéÀº ÀÚµ¿À¸·Î PDO::prepare¸¦ °ÅÃÄ quote()µÇ¾î µé¾î°©´Ï´Ù.
-	 *	µû¶ó¼­ ¹Ì¸® quote¸¦ ÇØ¼­ ³ÖÀ¸¸é ÀÇµµ¿Í ´Ù¸£°Ô ÀÔ·ÂµÉ ¼ö ÀÖ½À´Ï´Ù.
+	 *	insert í•˜ëŠ” ë°ì´í„°ë“¤ì€ ìë™ìœ¼ë¡œ PDO::prepareë¥¼ ê±°ì³ quote()ë˜ì–´ ë“¤ì–´ê°‘ë‹ˆë‹¤.
+	 *	ë”°ë¼ì„œ ë¯¸ë¦¬ quoteë¥¼ í•´ì„œ ë„£ìœ¼ë©´ ì˜ë„ì™€ ë‹¤ë¥´ê²Œ ì…ë ¥ë  ìˆ˜ ìˆìŠµë‹ˆë‹¤.
 	 *
 	 */
 	function insert(){
 
-		//Assertions - ¿À¹ö·ÎµùÀ» À§ÇÑ assertionµé... ¼ÖÁ÷È÷ ÁöÀúºĞÇÏ³×¿ä..
+		//Assertions - ì˜¤ë²„ë¡œë”©ì„ ìœ„í•œ assertionë“¤... ì†”ì§íˆ ì§€ì €ë¶„í•˜ë„¤ìš”..
 		assert(func_num_args()>1);
 		assert(gettype(func_get_arg(0))=="string");
 		assert(gettype(func_get_arg(1))=="array");
@@ -76,7 +76,7 @@
 		assert(func_num_args()<4);
 
 		//Implementation
-		//PHP¿¡¼­ ÆÄ¶ó¹ÌÅÍ °¹¼ö·Î ¿À¹ö·Îµù ±¸Çö..
+		//PHPì—ì„œ íŒŒë¼ë¯¸í„° ê°¯ìˆ˜ë¡œ ì˜¤ë²„ë¡œë”© êµ¬í˜„..
 
 		global $pdo;
 
@@ -104,7 +104,7 @@
 		$stmt = $pdo->prepare($prepare);
 		$stmt->execute($params);
 
-		//µğ¹ö±ë¿ë ¿À·ù¸Ş½ÃÁö
+		//ë””ë²„ê¹…ìš© ì˜¤ë¥˜ë©”ì‹œì§€
 		$err = $stmt->errorInfo();
 		if(isset($err[2])){
 			print_r($err);
@@ -115,11 +115,11 @@
 
 
 	/* 
-	 *	Author: ¾ÈÀ±±Ù 
+	 *	Author: ì•ˆìœ¤ê·¼ 
 	 *	@Params
-	 *	string table: tableÀÌ¸§
-	 *	string column: ´ÜÀÏ ÇÊµå ÀÌ¸§
-	 *	string/array clauses: where, order by µîÀÇ Á¶°ÇÀı µé
+	 *	string table: tableì´ë¦„
+	 *	string column: ë‹¨ì¼ í•„ë“œ ì´ë¦„
+	 *	string/array clauses: where, order by ë“±ì˜ ì¡°ê±´ì ˆ ë“¤
 	 *
 	 *	@Return
 	 *	OnSuccess: result value
@@ -127,26 +127,26 @@
 	 *	OnFailure: -1
 	 *
 	 *	@Description
-	 *	ÀÌ ÇÔ¼ö´Â
+	 *	ì´ í•¨ìˆ˜ëŠ”
 	 *	SELECT column FROM table clauses LIMIT 1
-	 *	Äõ¸®¸¦ ½ÇÇàÇÏ°í,
-	 *	¿À·ÎÁö °á°ú°ª ÇÏ³ª¸¸À» ¸®ÅÏÇÕ´Ï´Ù. (·¹ÄÚµå ÇÑÁÙÀÌ ¾Æ´Ñ °á°ú°ª ÇÏ³ªÀÔ´Ï´Ù.)
+	 *	ì¿¼ë¦¬ë¥¼ ì‹¤í–‰í•˜ê³ ,
+	 *	ì˜¤ë¡œì§€ ê²°ê³¼ê°’ í•˜ë‚˜ë§Œì„ ë¦¬í„´í•©ë‹ˆë‹¤. (ë ˆì½”ë“œ í•œì¤„ì´ ì•„ë‹Œ ê²°ê³¼ê°’ í•˜ë‚˜ì…ë‹ˆë‹¤.)
 	 *
-	 *	¿¹¸¦ µé¾î, SELECT name from test where id=1; 
-	 *	ÀÌ·±½ÄÀÇ Äõ¸®¸¦ ¿äÃ»½Ã ·¹ÄÚµå ÀüÃ¼°¡ ¾Æ´Ñ "¾ÈÀ±±Ù" ÇÏ³ª¸¸À» ¸®ÅÏÇÕ´Ï´Ù.
-	 *	ÆíÀÇ»ó ¸¸µç ÇÔ¼öÀÌ±â ¶§¹®¿¡ ¿©·¯ ·¹ÄÚµå¸¦ ¸®ÅÏÇÒ ÇÊ¿ä°¡ ÀÖÀ» ¶§¿¡´Â selectAll ÇÔ¼ö¸¦ È£ÃâÇØÁÖ¼¼¿ä.
+	 *	ì˜ˆë¥¼ ë“¤ì–´, SELECT name from test where id=1; 
+	 *	ì´ëŸ°ì‹ì˜ ì¿¼ë¦¬ë¥¼ ìš”ì²­ì‹œ ë ˆì½”ë“œ ì „ì²´ê°€ ì•„ë‹Œ "ì•ˆìœ¤ê·¼" í•˜ë‚˜ë§Œì„ ë¦¬í„´í•©ë‹ˆë‹¤.
+	 *	í¸ì˜ìƒ ë§Œë“  í•¨ìˆ˜ì´ê¸° ë•Œë¬¸ì— ì—¬ëŸ¬ ë ˆì½”ë“œë¥¼ ë¦¬í„´í•  í•„ìš”ê°€ ìˆì„ ë•Œì—ëŠ” selectAll í•¨ìˆ˜ë¥¼ í˜¸ì¶œí•´ì£¼ì„¸ìš”.
 	 *
-	 *	clauses°¡ ¸¸¾à,
-	 *	key=>value array·Î µé¾î¿Â °æ¿ì,
+	 *	clausesê°€ ë§Œì•½,
+	 *	key=>value arrayë¡œ ë“¤ì–´ì˜¨ ê²½ìš°,
 	 *	SELECT column FROM table key0 value0 key1 value1 ... LIMIT 1
-	 *	Äõ¸®¸¦ ½ÇÇàÇÕ´Ï´Ù.
+	 *	ì¿¼ë¦¬ë¥¼ ì‹¤í–‰í•©ë‹ˆë‹¤.
 	 *
-	 *	Äõ¸® ¿À·ù½Ã µğ¹ö±ë¿ë ¿À·ù¸Ş½ÃÁö¸¦ Ãâ·ÂÇÕ´Ï´Ù.
+	 *	ì¿¼ë¦¬ ì˜¤ë¥˜ì‹œ ë””ë²„ê¹…ìš© ì˜¤ë¥˜ë©”ì‹œì§€ë¥¼ ì¶œë ¥í•©ë‹ˆë‹¤.
 	 *
 	 */
 	function selectOne($table, $column, $clauses=""){
 
-		//Assertions - ÀÔ·Â°ª °ËÁõ
+		//Assertions - ì…ë ¥ê°’ ê²€ì¦
 		assert(gettype($table)=="string");
 		assert(isset($column) || gettype($column)=="string");
 		assert(gettype($clauses)=="array" || gettype($clauses)=="string");
@@ -171,30 +171,30 @@
 	}
 
 	/* 
-	 *	Author: ¾ÈÀ±±Ù
+	 *	Author: ì•ˆìœ¤ê·¼
 	 *	@Params
-	 *	string table: tableÀÌ¸§
-	 *	string/array columns: ÇÊµåµé ÀÌ¸§, default "*"
-	 *	string/array clauses: where, order by µîÀÇ Á¶°ÇÀı µé
+	 *	string table: tableì´ë¦„
+	 *	string/array columns: í•„ë“œë“¤ ì´ë¦„, default "*"
+	 *	string/array clauses: where, order by ë“±ì˜ ì¡°ê±´ì ˆ ë“¤
 	 *
 	 *	@Return
-	 *	OnSuccess: °á°ú ·¹ÄÚµåµéÀÇ ¿¬°ü¹è¿­
+	 *	OnSuccess: ê²°ê³¼ ë ˆì½”ë“œë“¤ì˜ ì—°ê´€ë°°ì—´
 	 *	OnEmptySet: null
 	 *	OnFailure: -1
 	 *
 	 *	@Description
-	 *	Äõ¸®·Î °Ë»öµÈ ·¹ÄÚµå ÀüºÎ¸¦ ¸®ÅÏÇÕ´Ï´Ù.
-	 *	SELECT columns FROM table clauses Äõ¸®¸¦ ½ÇÇàÇÕ´Ï´Ù.
+	 *	ì¿¼ë¦¬ë¡œ ê²€ìƒ‰ëœ ë ˆì½”ë“œ ì „ë¶€ë¥¼ ë¦¬í„´í•©ë‹ˆë‹¤.
+	 *	SELECT columns FROM table clauses ì¿¼ë¦¬ë¥¼ ì‹¤í–‰í•©ë‹ˆë‹¤.
 	 * 
-	 *	clauses°¡ ¸¸¾à,
-	 *	key=>value array·Î µé¾î¿Â °æ¿ì,(ex: Array("WHERE" => "...", "ORDER BY"=>"..."))
+	 *	clausesê°€ ë§Œì•½,
+	 *	key=>value arrayë¡œ ë“¤ì–´ì˜¨ ê²½ìš°,(ex: Array("WHERE" => "...", "ORDER BY"=>"..."))
 	 *	SELECT columns FROM table key0 value0 key1 value1 ...
-	 *	Äõ¸®¸¦ ½ÇÇàÇÕ´Ï´Ù.
+	 *	ì¿¼ë¦¬ë¥¼ ì‹¤í–‰í•©ë‹ˆë‹¤.
 	 * 
-	 *	Äõ¸® ¿À·ù½Ã µğ¹ö±ë¿ë ¿À·ù¸Ş½ÃÁö¸¦ Ãâ·ÂÇÕ´Ï´Ù.
+	 *	ì¿¼ë¦¬ ì˜¤ë¥˜ì‹œ ë””ë²„ê¹…ìš© ì˜¤ë¥˜ë©”ì‹œì§€ë¥¼ ì¶œë ¥í•©ë‹ˆë‹¤.
 	 */
 	function selectAll($table, $columns="*", $clauses=""){
-		//Assertions - ÀÔ·Â°ª °ËÁõ
+		//Assertions - ì…ë ¥ê°’ ê²€ì¦
 		assert(gettype($table)=="string");
 		assert(gettype($columns)=="array" || gettype($columns)=="string");
 		assert(gettype($clauses)=="array" || gettype($clauses)=="string");
@@ -221,33 +221,33 @@
 	}
 
 	/* 
-	 *	Author : ¾ÈÀ±±Ù 
+	 *	Author : ì•ˆìœ¤ê·¼ 
 	 *	@Params
-	 *	string table : tableÀÌ¸§
-	 *	string/array set : ¾÷µ¥ÀÌÆ® ÇÏ·Á´Â ÇÊµå=>°ª ¿¬°ü¹è¿­
-	 *	string/array clauses : where, order by µîÀÇ Á¶°ÇÀı µé
-	 *	setÀº
-	 *	Array("num"=>1,"name"=>"È«±æµ¿","age"=>30) È¤Àº,
-	 *	"num=1, name='È«±æµ¿', age=30" 
-	 *	ÀÌ·¸°Ô setÀıÀ» raw stringÀ¸·Î ÁÖ¼Åµµ ÁÁ½À´Ï´Ù.
+	 *	string table : tableì´ë¦„
+	 *	string/array set : ì—…ë°ì´íŠ¸ í•˜ë ¤ëŠ” í•„ë“œ=>ê°’ ì—°ê´€ë°°ì—´
+	 *	string/array clauses : where, order by ë“±ì˜ ì¡°ê±´ì ˆ ë“¤
+	 *	setì€
+	 *	Array("num"=>1,"name"=>"í™ê¸¸ë™","age"=>30) í˜¹ì€,
+	 *	"num=1, name='í™ê¸¸ë™', age=30" 
+	 *	ì´ë ‡ê²Œ setì ˆì„ raw stringìœ¼ë¡œ ì£¼ì…”ë„ ì¢‹ìŠµë‹ˆë‹¤.
 	 *
 	 *	@Return
-	 *	OnSuccess: update¹®¿¡ ÀÇÇØ ¿µÇâ¹ŞÀº ·¹ÄÚµå °¹¼ö (>=0)
+	 *	OnSuccess: updateë¬¸ì— ì˜í•´ ì˜í–¥ë°›ì€ ë ˆì½”ë“œ ê°¯ìˆ˜ (>=0)
 	 *	OnFailure: -1
 	 *
 	 *	@Description
-	 *	UPDATE table SET setkey0=setVal0, ... clauses Äõ¸®¸¦ ½ÇÇàÇÕ´Ï´Ù.
+	 *	UPDATE table SET setkey0=setVal0, ... clauses ì¿¼ë¦¬ë¥¼ ì‹¤í–‰í•©ë‹ˆë‹¤.
 	 * 
-	 *	clauses°¡ ¸¸¾à,
-	 *	key=>value array·Î µé¾î¿Â °æ¿ì,
+	 *	clausesê°€ ë§Œì•½,
+	 *	key=>value arrayë¡œ ë“¤ì–´ì˜¨ ê²½ìš°,
 	 *	UPDATE ... key0 value0 key1 value1 ...
-	 *	Äõ¸®¸¦ ½ÇÇàÇÕ´Ï´Ù.
+	 *	ì¿¼ë¦¬ë¥¼ ì‹¤í–‰í•©ë‹ˆë‹¤.
 	 * 
-	 *	Äõ¸® ¿À·ù½Ã µğ¹ö±ë¿ë ¿À·ù¸Ş½ÃÁö¸¦ Ãâ·ÂÇÕ´Ï´Ù.
+	 *	ì¿¼ë¦¬ ì˜¤ë¥˜ì‹œ ë””ë²„ê¹…ìš© ì˜¤ë¥˜ë©”ì‹œì§€ë¥¼ ì¶œë ¥í•©ë‹ˆë‹¤.
 	 *
 	 *	@Issue
-	 *	insert ÇÏ´Â µ¥ÀÌÅÍµéÀº ÀÚµ¿À¸·Î PDO::prepare¸¦ °ÅÃÄ quote()µÇ¾î µé¾î°©´Ï´Ù.
-	 *	µû¶ó¼­ ¹Ì¸® quote¸¦ ÇØ¼­ ³ÖÀ¸¸é ÀÇµµ¿Í ´Ù¸£°Ô ÀÔ·ÂµÉ ¼ö ÀÖ½À´Ï´Ù.
+	 *	insert í•˜ëŠ” ë°ì´í„°ë“¤ì€ ìë™ìœ¼ë¡œ PDO::prepareë¥¼ ê±°ì³ quote()ë˜ì–´ ë“¤ì–´ê°‘ë‹ˆë‹¤.
+	 *	ë”°ë¼ì„œ ë¯¸ë¦¬ quoteë¥¼ í•´ì„œ ë„£ìœ¼ë©´ ì˜ë„ì™€ ë‹¤ë¥´ê²Œ ì…ë ¥ë  ìˆ˜ ìˆìŠµë‹ˆë‹¤.
 	 *
 	 */
 	function update($table, $set, $clauses=""){
@@ -275,7 +275,7 @@
 		$stmt = $pdo->prepare($prepare);
 		$stmt->execute(array_values($set));
 
-		//µğ¹ö±ë¿ë ¿À·ù¸Ş½ÃÁö
+		//ë””ë²„ê¹…ìš© ì˜¤ë¥˜ë©”ì‹œì§€
 		$err = $stmt->errorInfo();
 		if(isset($err[2])){
 			print_r($err);
@@ -286,27 +286,27 @@
 	}
 
 	/* 
-	 *	Author: ¾ÈÀ±±Ù 
+	 *	Author: ì•ˆìœ¤ê·¼ 
 	 *	@Params
-	 *	string table: tableÀÌ¸§
-	 *	string/array clauses: where, order by µîÀÇ Á¶°ÇÀı µé
+	 *	string table: tableì´ë¦„
+	 *	string/array clauses: where, order by ë“±ì˜ ì¡°ê±´ì ˆ ë“¤
 	 *
 	 *	@Return
-	 *	OnSuccess: Delete¹®¿¡ ÀÇÇØ ¿µÇâ¹ŞÀº ·¹ÄÚµå °¹¼ö (>=0)
+	 *	OnSuccess: Deleteë¬¸ì— ì˜í•´ ì˜í–¥ë°›ì€ ë ˆì½”ë“œ ê°¯ìˆ˜ (>=0)
 	 *	OnFailure: -1
 	 *
 	 *	@Description
-	 *	DELETE FROM table clauses Äõ¸®¸¦ ½ÇÇàÇÕ´Ï´Ù.
-	 *	ÀÌ¹Ì delete¶ó´Â ÇÔ¼ö¸íÀÌ php¿¡ Á¸ÀçÇÏ±â ¶§¹®¿¡ deletes¶ó´Â ÇÔ¼ö¸íÀ» »ç¿ëÇÕ´Ï´Ù.
+	 *	DELETE FROM table clauses ì¿¼ë¦¬ë¥¼ ì‹¤í–‰í•©ë‹ˆë‹¤.
+	 *	ì´ë¯¸ deleteë¼ëŠ” í•¨ìˆ˜ëª…ì´ phpì— ì¡´ì¬í•˜ê¸° ë•Œë¬¸ì— deletesë¼ëŠ” í•¨ìˆ˜ëª…ì„ ì‚¬ìš©í•©ë‹ˆë‹¤.
 	 * 
-	 *	clauses°¡ ¸¸¾à,
-	 *	key=>value array·Î µé¾î¿Â °æ¿ì,
+	 *	clausesê°€ ë§Œì•½,
+	 *	key=>value arrayë¡œ ë“¤ì–´ì˜¨ ê²½ìš°,
 	 *	DELETE FROM table key0 value0 key1 value1 ...
-	 *	Äõ¸®¸¦ ½ÇÇàÇÕ´Ï´Ù.
+	 *	ì¿¼ë¦¬ë¥¼ ì‹¤í–‰í•©ë‹ˆë‹¤.
 	 * 
-	 *	Äõ¸® ¿À·ù½Ã µğ¹ö±ë¿ë ¿À·ù¸Ş½ÃÁö¸¦ Ãâ·ÂÇÕ´Ï´Ù.
+	 *	ì¿¼ë¦¬ ì˜¤ë¥˜ì‹œ ë””ë²„ê¹…ìš© ì˜¤ë¥˜ë©”ì‹œì§€ë¥¼ ì¶œë ¥í•©ë‹ˆë‹¤.
 	 */
-	function deletes($table, $clauses){
+	function deletes($table, $clauses=""){
 		assert(gettype($table)=="string");
 		assert(gettype($clauses)=="array" || gettype($clauses)=="string");
 
@@ -322,96 +322,100 @@
 
 
 	/* 
-	 *	Author: ¾ÈÀ±±Ù 
+	 *	Author: ì•ˆìœ¤ê·¼ 
 	 *	@Params
-	 *	string table: tableÀÌ¸§
-	 *	string/array clauses: where, order by µîÀÇ Á¶°ÇÀı µé
+	 *	string table: tableì´ë¦„
+	 *	string/array clauses: where, order by ë“±ì˜ ì¡°ê±´ì ˆ ë“¤
 	 *
 	 *	@Return
-	 *	OnSuccess: °Ë»öµÈ ·¹ÄÚµå °¹¼ö
+	 *	OnSuccess: ê²€ìƒ‰ëœ ë ˆì½”ë“œ ê°¯ìˆ˜
 	 *	OnFailure: -1
 	 *
 	 *	@Description
-	 *	SELECT count(*) FROM table clauses Äõ¸®¸¦ ½ÇÇàÇÕ´Ï´Ù.
-	 *	ÀÌ¹Ì count¶ó´Â ÇÔ¼ö°¡ php¿¡ Á¸ÀçÇÏ±â ¶§¹®¿¡ counts¶ó´Â ÇÔ¼ö¸íÀ» »ç¿ëÇÕ´Ï´Ù.
+	 *	SELECT count(*) FROM table clauses ì¿¼ë¦¬ë¥¼ ì‹¤í–‰í•©ë‹ˆë‹¤.
+	 *	ì´ë¯¸ countë¼ëŠ” í•¨ìˆ˜ê°€ phpì— ì¡´ì¬í•˜ê¸° ë•Œë¬¸ì— countsë¼ëŠ” í•¨ìˆ˜ëª…ì„ ì‚¬ìš©í•©ë‹ˆë‹¤.
 	 * 
-	 *	clauses°¡ ¸¸¾à,
-	 *	key=>value array·Î µé¾î¿Â °æ¿ì,
+	 *	clausesê°€ ë§Œì•½,
+	 *	key=>value arrayë¡œ ë“¤ì–´ì˜¨ ê²½ìš°,
 	 *	SELECT count(*) FROM table key0 value0 key1 value1 ...
-	 *	Äõ¸®¸¦ ½ÇÇàÇÕ´Ï´Ù.
+	 *	ì¿¼ë¦¬ë¥¼ ì‹¤í–‰í•©ë‹ˆë‹¤.
 	 * 
-	 *	Äõ¸® ¿À·ù½Ã µğ¹ö±ë¿ë ¿À·ù¸Ş½ÃÁö¸¦ Ãâ·ÂÇÕ´Ï´Ù.
+	 *	ì¿¼ë¦¬ ì˜¤ë¥˜ì‹œ ë””ë²„ê¹…ìš© ì˜¤ë¥˜ë©”ì‹œì§€ë¥¼ ì¶œë ¥í•©ë‹ˆë‹¤.
 	 */
 	function counts($table, $clauses){
 		assert(gettype($table)=="string");
 		assert(gettype($clauses)=="array" || gettype($clauses)=="string");
-		return selectOne($table,"count(*)",$clauses);
+		return intval(selectOne($table,"count(*)",$clauses));
 	}
 
 	/* 
-	 *	Author: ¾ÈÀ±±Ù 
+	 *	Author: ì•ˆìœ¤ê·¼ 
 	 *	@Params
-	 *	string table: tableÀÌ¸§
-	 *	string column: columnÀÌ¸§
-	 *	string/array clauses: where, order by µîÀÇ Á¶°ÇÀı µé
+	 *	string table: tableì´ë¦„
+	 *	string column: columnì´ë¦„
+	 *	string/array clauses: where, order by ë“±ì˜ ì¡°ê±´ì ˆ ë“¤
 	 *
 	 *	@Return
-	 *	OnSuccess: Á¶°Ç¿¡ ºÎÇÕÇÏ´Â ·¹ÄÚµåµéÀÇ ÇÕ
+	 *	OnSuccess: ì¡°ê±´ì— ë¶€í•©í•˜ëŠ” ë ˆì½”ë“œë“¤ì˜ í•©
 	 *	OnFailure: -1
 	 *
 	 *	@Description
-	 *	SELECT sum(*) FROM table clauses Äõ¸®¸¦ ½ÇÇàÇÕ´Ï´Ù.
+	 *	SELECT sum(*) FROM table clauses ì¿¼ë¦¬ë¥¼ ì‹¤í–‰í•©ë‹ˆë‹¤.
 	 *
-	 *	clauses°¡ ¸¸¾à,
-	 *	key=>value array·Î µé¾î¿Â °æ¿ì,
+	 *	clausesê°€ ë§Œì•½,
+	 *	key=>value arrayë¡œ ë“¤ì–´ì˜¨ ê²½ìš°,
 	 *	SELECT sum(*) FROM table key0 value0 key1 value1 ...
-	 *	Äõ¸®¸¦ ½ÇÇàÇÕ´Ï´Ù.
+	 *	ì¿¼ë¦¬ë¥¼ ì‹¤í–‰í•©ë‹ˆë‹¤.
 	 * 
-	 *	Äõ¸® ¿À·ù½Ã µğ¹ö±ë¿ë ¿À·ù¸Ş½ÃÁö¸¦ Ãâ·ÂÇÕ´Ï´Ù.
+	 *	ì¿¼ë¦¬ ì˜¤ë¥˜ì‹œ ë””ë²„ê¹…ìš© ì˜¤ë¥˜ë©”ì‹œì§€ë¥¼ ì¶œë ¥í•©ë‹ˆë‹¤.
 	 */
 	function sum($table, $column, $clauses){
 		assert(gettype($table)=="string");
 		assert(gettype($column)=="string");
 		assert(gettype($clauses)=="array" || gettype($clauses)=="string");
-		return selectOne($table,"sum(".$column.")",$clauses);
+		$sum = selectOne($table,"sum(".$column.")",$clauses);
+		if(strpos($sum,".")!==false){
+			return doubleval($sum);
+		}
+		return intval($sum);
 	}
 
 	/* 
-	 *	Author: ¾ÈÀ±±Ù 
+	 *	Author: ì•ˆìœ¤ê·¼ 
 	 *	@Params
-	 *	string table: tableÀÌ¸§
-	 *	string column: columnÀÌ¸§
-	 *	string/array clauses: where, order by µîÀÇ Á¶°ÇÀı µé
+	 *	string table: tableì´ë¦„
+	 *	string column: columnì´ë¦„
+	 *	string/array clauses: where, order by ë“±ì˜ ì¡°ê±´ì ˆ ë“¤
 	 *
 	 *	@Return
-	 *	OnSuccess: Á¶°Ç¿¡ ºÎÇÕÇÏ´Â ·¹ÄÚµåµéÀÇ Æò±Õ°ª
+	 *	OnSuccess: ì¡°ê±´ì— ë¶€í•©í•˜ëŠ” ë ˆì½”ë“œë“¤ì˜ í‰ê· ê°’
 	 *	OnFailure: -1
 	 *
 	 *	@Description
-	 *	SELECT avg(column) FROM table clauses Äõ¸®¸¦ ½ÇÇàÇÕ´Ï´Ù.
+	 *	SELECT avg(column) FROM table clauses ì¿¼ë¦¬ë¥¼ ì‹¤í–‰í•©ë‹ˆë‹¤.
 	 * 
-	 *	clauses°¡ ¸¸¾à,
-	 *	key=>value array·Î µé¾î¿Â °æ¿ì,
+	 *	clausesê°€ ë§Œì•½,
+	 *	key=>value arrayë¡œ ë“¤ì–´ì˜¨ ê²½ìš°,
 	 *	SELECT avg(column) FROM table key0 value0 key1 value1 ...
-	 *	Äõ¸®¸¦ ½ÇÇàÇÕ´Ï´Ù.
+	 *	ì¿¼ë¦¬ë¥¼ ì‹¤í–‰í•©ë‹ˆë‹¤.
 	 * 
-	 *	Äõ¸® ¿À·ù½Ã µğ¹ö±ë¿ë ¿À·ù¸Ş½ÃÁö¸¦ Ãâ·ÂÇÕ´Ï´Ù.
+	 *	ì¿¼ë¦¬ ì˜¤ë¥˜ì‹œ ë””ë²„ê¹…ìš© ì˜¤ë¥˜ë©”ì‹œì§€ë¥¼ ì¶œë ¥í•©ë‹ˆë‹¤.
 	 */
 	function avg($table, $column, $clauses){
 		assert(gettype($table)=="string");
 		assert(gettype($column)=="string");
 		assert(gettype($clauses)=="array" || gettype($clauses)=="string");
-		return selectOne($table,"avg(".$column.")",$clauses);
+		return doubleval(selectOne($table,"avg(".$column.")",$clauses));
 	}
 
 	/* 
 	 *	@Params
-	 *	password: ÆĞ½º¿öµå ÇØ½ÃÇÏ°íÀÚ ÇÏ´Â ¹®ÀÚ¿­
+	 *	password: íŒ¨ìŠ¤ì›Œë“œ í•´ì‹œí•˜ê³ ì í•˜ëŠ” ë¬¸ìì—´
 	 *	@Return
-	 *	ÆĞ½º¿öµå ÇØ½Ã °ª
+	 *	íŒ¨ìŠ¤ì›Œë“œ í•´ì‹œ ê°’
 	 *	@Description
-	 *	ÆĞ½º¿öµå¸¦ ¹Ş¾Æ¼­ ÆĞ½º¿öµå ÇØ½Ã°ªÀ» ¸®ÅÏÇÕ´Ï´Ù.
-	 *	ÆĞ½º¿öµå ÇØ½Ã°¡ ÇÊ¿äÇÑ °æ¿ì Äõ¸®¿¡¼­ PASSWORD()¾²Áö ¸»°í ÀÌ ÇÔ¼ö¸¦ ½áÁÖ¼¼¿ä.
+	 *	íŒ¨ìŠ¤ì›Œë“œë¥¼ ë°›ì•„ì„œ íŒ¨ìŠ¤ì›Œë“œ í•´ì‹œê°’ì„ ë¦¬í„´í•©ë‹ˆë‹¤.
+	 *	íŒ¨ìŠ¤ì›Œë“œ í•´ì‹œê°€ í•„ìš”í•œ ê²½ìš° ì¿¼ë¦¬ì—ì„œ PASSWORD()ì“°ì§€ ë§ê³  ì´ í•¨ìˆ˜ë¥¼ ì¨ì£¼ì„¸ìš”.
 	 */
 	function pwd($password){
 		$query = "select password(".quote($password).")";
@@ -422,11 +426,11 @@
 
 	/*
 	 *	@Params
-	 *	param: ÄõÆÃ ÇÏ°íÀÚ ÇÏ´Â ¹®ÀÚ¿­
+	 *	param: ì¿¼íŒ… í•˜ê³ ì í•˜ëŠ” ë¬¸ìì—´
 	 *	@Return
 	 *	'param'
 	 *	@Description
-	 *	PDOÀÇ quoteÇÔ¼ö¸¦ ¼öÇàÇÕ´Ï´Ù. Äõ¸® ÆÄ¶ó¹ÌÅÍ¿¡ ' ' Á÷Á¢³ÖÁö¸»°í ÀÌ ÇÔ¼ö¸¦ ½áÁÖ¼¼¿ä.
+	 *	PDOì˜ quoteí•¨ìˆ˜ë¥¼ ìˆ˜í–‰í•©ë‹ˆë‹¤. ì¿¼ë¦¬ íŒŒë¼ë¯¸í„°ì— ' ' ì§ì ‘ë„£ì§€ë§ê³  ì´ í•¨ìˆ˜ë¥¼ ì¨ì£¼ì„¸ìš”.
 	 */
 	function quote($param){
 		global $pdo;
@@ -434,19 +438,19 @@
 	}
 
 	/*
-	 *	Author: ¾ÈÀ±±Ù
+	 *	Author: ì•ˆìœ¤ê·¼
 	 *	@Params
-	 *	param: Äõ¸®¹® ¹®ÀÚ¿­
+	 *	param: ì¿¼ë¦¬ë¬¸ ë¬¸ìì—´
 	 *	@Return
-	 *	statement ¿ÀºêÁ§Æ®.
+	 *	statement ì˜¤ë¸Œì íŠ¸.
 	 *	@Description
-	 *	raw query¸¦ ¼öÇàÇÕ´Ï´Ù. ¼öÇà°á°ú¸¦ ¿ÀºêÁ§Æ®·Î ¸®ÅÏÇÕ´Ï´Ù.
+	 *	raw queryë¥¼ ìˆ˜í–‰í•©ë‹ˆë‹¤. ìˆ˜í–‰ê²°ê³¼ë¥¼ ì˜¤ë¸Œì íŠ¸ë¡œ ë¦¬í„´í•©ë‹ˆë‹¤.
 	 */
 	function rawQuery($query){
 		global $pdo;
 		$stmt = $pdo->prepare($query);
 		$stmt->execute();
-		//µğ¹ö±ë¿ë ¿À·ù¸Ş½ÃÁö
+		//ë””ë²„ê¹…ìš© ì˜¤ë¥˜ë©”ì‹œì§€
 		$err = $stmt->errorInfo();
 		if(isset($err[2])){
 			print_r($err);
@@ -456,19 +460,19 @@
 	}
 
 	/* 
-	 *	Author: ¾ÈÀ±±Ù 
+	 *	Author: ì•ˆìœ¤ê·¼ 
 	 *	@Params
-	 *	string/array clauses: where, order by µîÀÇ Á¶°ÇÀı µé
-	 *	string°ú clause=>conditionÀÎ ¿¬°ü¹è¿­À» ¹Ş½À´Ï´Ù.
-	 *	ÆÄ¶ó¹ÌÅÍ ¿¹½Ã1: Array("where"=>"id=1 and name LIKE ¾ÈÀ±±Ù","LIMIT"=>3,"ORDER BY"=>"desc")
-	 *	ÆÄ¶ó¹ÌÅÍ ¿¹½Ã2: "where id=1 and name like ¾ÈÀ±±Ù limit 3 ..."
+	 *	string/array clauses: where, order by ë“±ì˜ ì¡°ê±´ì ˆ ë“¤
+	 *	stringê³¼ clause=>conditionì¸ ì—°ê´€ë°°ì—´ì„ ë°›ìŠµë‹ˆë‹¤.
+	 *	íŒŒë¼ë¯¸í„° ì˜ˆì‹œ1: Array("where"=>"id=1 and name LIKE ì•ˆìœ¤ê·¼","LIMIT"=>3,"ORDER BY"=>"desc")
+	 *	íŒŒë¼ë¯¸í„° ì˜ˆì‹œ2: "where id=1 and name like ì•ˆìœ¤ê·¼ limit 3 ..."
 	 *
 	 *	@Return
 	 *	OnSuccess: Parsed clauses
 	 *
 	 *	@Description
-	 *	Á¶°ÇÀıµéÀ» ¹Ş¾Æ¼­ ¹®ÀÚ¿­·Î ºôµåÇÕ´Ï´Ù.
-	 *	¿À·ÎÁö db.php ³»¿¡¼­¸¸ »ç¿ëÇÏ±â À§ÇÑ ÇÔ¼öÀÔ´Ï´Ù.
+	 *	ì¡°ê±´ì ˆë“¤ì„ ë°›ì•„ì„œ ë¬¸ìì—´ë¡œ ë¹Œë“œí•©ë‹ˆë‹¤.
+	 *	ì˜¤ë¡œì§€ db.php ë‚´ì—ì„œë§Œ ì‚¬ìš©í•˜ê¸° ìœ„í•œ í•¨ìˆ˜ì…ë‹ˆë‹¤.
 	 */
 	function clauseBuild($clauses){
 		$result = "";
@@ -483,7 +487,7 @@
 	}
 
 
-	//Å×½ºÆ®ÄÚµå
+	//í…ŒìŠ¤íŠ¸ì½”ë“œ
 	//print("<br/>insert:<br/>");
 	//insert("testTB",Array("name","age"),Array("Ahn2",221));
 	//print("<br/>selectOne:<br/>");
