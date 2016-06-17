@@ -69,8 +69,10 @@
 		
 		$pattern = "/위치.+/";
 		preg_match($pattern, $result, $matches);
-		$location[$restraunt_index] = $matches[0];
-		
+		if ( isset ($matches[0]) )
+		{
+			$location[$restraunt_index] = $matches[0];
+		}
 		// 교직원식당, 학생식당, 기숙사식당, 푸드코트, 창업보육센터 순서로
 			// 0,1,2,3,4
 		
@@ -113,7 +115,14 @@
 	{
 		$pattern = "/위치.+\\n\|\\n(.*?)/";
 		preg_match($pattern, $result, $matches);
-		return $matches[1];
+		if ( isset ($matches[1]) )
+		{
+			return $matches[1];
+		}
+		else
+		{
+			return "";
+		}
 	}
 	
 	
