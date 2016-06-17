@@ -50,9 +50,9 @@
     <nav>
       <ul class="pager">
 		<!--<?= $breakfast ?>-->
-		<li class = "btn_time_0"><a>조식 ></a></li>
-        <li class = "btn_time_1"><a>중식 ></a></li>
-        <li class = "btn_time_2"><a>석식 ></a></li>
+		<li><a class = "btn_time_0">조식 ></a></li>
+        <li><a class = "btn_time_1">중식 ></a></li>
+        <li><a class = "btn_time_2">석식 ></a></li>
 		<!--
         <li><a href="#">Breakfast ></a></li>
         <li><a href="#">Lunch ></a></li>

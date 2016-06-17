@@ -1,11 +1,4 @@
-/*
-	 *	Author: 성다혜
-	 *
-	 *	@Description
-	 *	레이아웃 설정
-	 */
-
-
+/* 저자: 성다혜*/
 body{
   font: "나눔고딕";
 }
@@ -56,4 +49,9 @@ body{
 .dormNameLabel{
   margin: 20px 0px 10px;
   font-size: 20pt;
+}
+
+/*추가해야하는 부분*/
+.Highlight{
+  background-image: linear-gradient(to bottom,#5cb85c 0,rgb(92, 184, 92) 100%)
 }

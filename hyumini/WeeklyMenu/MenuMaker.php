@@ -1,4 +1,4 @@
-<?php
+﻿<?php
 	/*
 	 *	Author: 성다혜, 김진희
 	 *	@Description
@@ -39,14 +39,14 @@
 			show_menu_in_time("학생 식당", "studentRes", "studentResInfo", $menu[1][$time_index], $price[1][$time_index], $day_index);
 			if ( isset($menu[0]) && array_key_exists($time_index, $menu[0] ) )
 			show_menu_in_time("교직원 식당", "staffRes", "staffResInfo", $menu[0][$time_index], $price[0][$time_index], $day_index);
-			// ¾ÆA§¿¡´A CªμaAUÆ® ¾E º¸¿ⓒAU
-			if ($time_index != 0)
+			// 푸드코트
+			if (isset($menu[3]) && $time_index != 0)
 			{
 				show_foodcourt_menu($menu[3], $price[3], $day_index);
 			}
 			if ( isset($menu[2]) && array_key_exists($time_index, $menu[2] ) )
 			show_menu_in_time("기숙사 식당", "DormRes", "DormResInfo", $menu[2][$time_index], $price[2][$time_index], $day_index);
-			//show_menu_in_time("기숙사 식당", "DormRes", "DormResInfo", $menu[2][$time_index], NULL, $day_index);
+			
 			if ( isset($menu[4]) && array_key_exists($time_index, $menu[4] ) )
 			show_menu_in_time("창업 보육 센터", "StartupRes", "StartupResInfo", $menu[4][$time_index], $price[4][$time_index], $day_index);
 
