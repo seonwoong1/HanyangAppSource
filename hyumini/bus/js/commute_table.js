@@ -17,7 +17,7 @@ $(document).ready(function(){
   $(".toHomeBuInfo").hide();
   $(".toHomeHwaInfo").hide();
   $(".toHomeGwangInfo").hide();
-  $(".toHomeKangInfo").hide();
+  $(".toHomeGangSaInfo").hide();
   $(".toHomeMyungInfo").hide();
   $(".toHomeBoonInfo").hide();
 
@@ -29,7 +29,7 @@ $(document).ready(function(){
         $(".toUnivBuInfo").toggle();
         $(".toUnivBuSp").toggleClass('glyphicon-triangle-bottom glyphicon-triangle-top');
         $.ajax({
-            url:'./commute.php',
+            url:'./commute/',
             type: "get",
             dataType: "json",
             data:{
@@ -53,7 +53,7 @@ $(document).ready(function(){
         $(".toUnivHwaInfo").toggle();
         $(".toUnivHwaSp").toggleClass('glyphicon-triangle-bottom glyphicon-triangle-top');
         $.ajax({
-            url:'./commute.php',
+            url:'./commute/',
             type: "get",
             dataType: "json",
             data:{
@@ -77,7 +77,7 @@ $(document).ready(function(){
         $(".toUnivGongInfo").toggle();
         $(".toUnivGongSp").toggleClass('glyphicon-triangle-bottom glyphicon-triangle-top');
         $.ajax({
-            url:'./commute.php',
+            url:'./commute/',
             type: "get",
             dataType: "json",
             data:{
@@ -101,7 +101,7 @@ $(document).ready(function(){
         $(".toUnivKangInfo").toggle();
         $(".toUnivKangSp").toggleClass('glyphicon-triangle-bottom glyphicon-triangle-top');
         $.ajax({
-            url:'./commute.php',
+            url:'./commute/',
             type: "get",
             dataType: "json",
             data:{
@@ -125,7 +125,7 @@ $(document).ready(function(){
         $(".toUnivMyungInfo").toggle();
         $(".toUnivMyungSp").toggleClass('glyphicon-triangle-bottom glyphicon-triangle-top');
         $.ajax({
-            url:'./commute.php',
+            url:'./commute/',
             type: "get",
             dataType: "json",
             data:{
@@ -149,7 +149,7 @@ $(document).ready(function(){
         $(".toUnivBoonInfo").toggle();
         $(".toUnivBoonSp").toggleClass('glyphicon-triangle-bottom glyphicon-triangle-top');
         $.ajax({
-            url:'./commute.php',
+            url:'./commute/',
             type: "get",
             dataType: "json",
             data:{
@@ -173,7 +173,7 @@ $(document).ready(function(){
         $(".toUnivSinInfo").toggle();
         $(".toUnivSinSp").toggleClass('glyphicon-triangle-bottom glyphicon-triangle-top');
         $.ajax({
-            url:'./commute.php',
+            url:'./commute/',
             type: "get",
             dataType: "json",
             data:{
@@ -197,7 +197,7 @@ $(document).ready(function(){
         $(".toUnivDangInfo").toggle();
         $(".toUnivDangSp").toggleClass('glyphicon-triangle-bottom glyphicon-triangle-top');
         $.ajax({
-            url:'./commute.php',
+            url:'./commute/',
             type: "get",
             dataType: "json",
             data:{
@@ -221,7 +221,7 @@ $(document).ready(function(){
         $(".toUnivBongInfo").toggle();
         $(".toUnivBongSp").toggleClass('glyphicon-triangle-bottom glyphicon-triangle-top');
         $.ajax({
-            url:'./commute.php',
+            url:'./commute/',
             type: "get",
             dataType: "json",
             data:{
@@ -248,7 +248,7 @@ $(document).ready(function(){
         $(".toHomeBuInfo").toggle();
         $(".toHomeBuSp").toggleClass('glyphicon-triangle-bottom glyphicon-triangle-top');
         $.ajax({
-            url:'./commute.php',
+            url:'./commute/',
             type: "get",
             dataType: "json",
             data:{
@@ -272,7 +272,7 @@ $(document).ready(function(){
         $(".toHomeHwaInfo").toggle();
         $(".toHomeHwaSp").toggleClass('glyphicon-triangle-bottom glyphicon-triangle-top');
         $.ajax({
-            url:'./commute.php',
+            url:'./commute/',
             type: "get",
             dataType: "json",
             data:{
@@ -296,7 +296,7 @@ $(document).ready(function(){
         $(".toHomeGwangInfo").toggle();
         $(".toHomeGwangSp").toggleClass('glyphicon-triangle-bottom glyphicon-triangle-top');
         $.ajax({
-            url:'./commute.php',
+            url:'./commute/',
             type: "get",
             dataType: "json",
             data:{
@@ -316,11 +316,11 @@ $(document).ready(function(){
             }
         });
   });
-  $(".toHomeKang").click(function(){
-        $(".toHomeKangInfo").toggle();
-        $(".toHomeKangSp").toggleClass('glyphicon-triangle-bottom glyphicon-triangle-top');
+  $(".toHomeGangSa").click(function(){
+        $(".toHomeGangSaInfo").toggle();
+        $(".toHomeGangSaSp").toggleClass('glyphicon-triangle-bottom glyphicon-triangle-top');
         $.ajax({
-            url:'./commute.php',
+            url:'./commute/',
             type: "get",
             dataType: "json",
             data:{
@@ -329,15 +329,15 @@ $(document).ready(function(){
             },
             success:function(data){
               //console.log(data);
-              $('.toHomeKangInfo').empty();
+              $('.toHomeGangSaInfo').empty();
               $.each(data["resultTable"], function(key, value) {
                 //console.log(key+ ':' + value);
-                $('.toHomekangInfo').append("<p>"+key+"&nbsp;&nbsp;&nbsp;"+value+"</p>");
+                $('.toHomeGangSaInfo').append("<p>"+key+"&nbsp;&nbsp;&nbsp;"+value+"</p>");
               });
             },
             error:function(){
-              $('.toHomeKangInfo').empty();
-              $('.toHomeKangInfo').append("error");
+              $('.toHomeGangSaInfo').empty();
+              $('.toHomeGangSaInfo').append("error");
             }
         });
   });
@@ -345,7 +345,7 @@ $(document).ready(function(){
         $(".toHomeMyungInfo").toggle();
         $(".toHomeMyungSp").toggleClass('glyphicon-triangle-bottom glyphicon-triangle-top');
         $.ajax({
-            url:'./commute.php',
+            url:'./commute/',
             type: "get",
             dataType: "json",
             data:{
@@ -369,7 +369,7 @@ $(document).ready(function(){
         $(".toHomeBoonInfo").toggle();
         $(".toHomeBoonSp").toggleClass('glyphicon-triangle-bottom glyphicon-triangle-top');
         $.ajax({
-            url:'./commute.php',
+            url:'./commute/',
             type: "get",
             dataType: "json",
             data:{
@@ -393,7 +393,7 @@ $(document).ready(function(){
         $(".toHomeSinInfo").toggle();
         $(".toHomeSinSp").toggleClass('glyphicon-triangle-bottom glyphicon-triangle-top');
         $.ajax({
-            url:'./commute.php',
+            url:'./commute/',
             type: "get",
             dataType: "json",
             data:{
@@ -418,7 +418,7 @@ $(document).ready(function(){
         $(".toHomeYoungInfo").toggle();
         $(".toHomeYoungSp").toggleClass('glyphicon-triangle-bottom glyphicon-triangle-top');
         $.ajax({
-            url:'./commute.php',
+            url:'./commute/',
             type: "get",
             dataType: "json",
             data:{
@@ -442,7 +442,7 @@ $(document).ready(function(){
         $(".toHomeZamInfo").toggle();
         $(".toHomeZamSp").toggleClass('glyphicon-triangle-bottom glyphicon-triangle-top');
         $.ajax({
-            url:'./commute.php',
+            url:'./commute/',
             type: "get",
             dataType: "json",
             data:{

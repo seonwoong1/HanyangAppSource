@@ -15,24 +15,39 @@
 	</head>
 	<body>
 	<div id="panel">
-		<div><h3 id="title">HANYANG ERICA</h3></div>
+		<!-- 타이틀 수정(안윤근) -->
+		<div><h2 id="title">HYUⓔmini</h2></div>
 		<div id="error">
 			<p></p>
 		</div>
-		<p>	
-			<input id="id" name="id" placeholder="id"></input>
-		</p>
-		<p>	
-			<input type="password" id="pw" placeholder="password"></input>
-		</p>
-		<p>
-			<button id="login" >log in</button>
-		</p>
-		<p>
-			<form mothod="link" action="forgetpw.html">
-				<button id="findPassword" >Forget Password?</button>
-			</form>
-		</p>
+		<!-- 레이아웃 수정 (안윤근) -->
+		<div>
+			<div style="float:left;margin-left:10%;width:60%;">
+				<p>	
+					<input id="id" name="id" placeholder=" Id" style="
+    width: 100%;
+"></input>
+				</p>
+				
+				<p>	
+					<input type="password" id="pw" placeholder=" Password" style="
+    width: 100%;
+"></input>
+				</p>
+			</div>
+			<div style="float:left;width:22%;">
+				<p>
+					<button id="login" style="height: 60px;color:#ffffff;font-weight:bold;">로그인</button>
+				</p>
+			</div>
+		</div>
+		<div>
+			<p>
+				<form mothod="link" action="forgetpw.html">
+					<button id="findPassword">Forgot Password?</button>
+				</form>
+			</p>
+		</div>
 	</div>
 	</body>
 </html>

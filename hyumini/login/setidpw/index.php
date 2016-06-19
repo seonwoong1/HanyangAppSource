@@ -33,12 +33,14 @@
 	function validation($id, $pw){
 		global $sid, $table;
 		$maxLen = 24;//ID 최대 자리수
-		$minLen = 8;//ID, PW 최소 자리수
+		//ID, PW 최소 자리수
+		$minIdLen = 6;
+		$minPwLen = 8;
 		$clause = "WHERE id=".quote($id);
 		if(strlen($id)>$maxLen)
 			return $maxLen."자리가 넘는 ID는 사용하실 수 없습니다.";
-		if(strlen($id)<$minLen)
-			return "최소 ".$minLen."자리가 넘는 ID를 사용하셔야 합니다.";
+		if(strlen($id)<$minIdLen)
+			return "최소 ".$minIdLen."자리가 넘는 ID를 사용하셔야 합니다.";
 		if(is_numeric($id))
 			return "숫자만으로 이루어진 ID는 사용하실 수 없습니다.";
 		if(!ctype_alnum($id))
@@ -49,8 +51,8 @@
 			return "학번과 동일한 비밀번호는 사용하실 수 없습니다.";
 		if(is_numeric($pw))
 			return "숫자만으로 이루어진 패스워드는 사용하실 수 없습니다.";
-		if(strlen($pw)<$minLen)
-			return "최소 ".$minLen."자리가 넘는 패스워드를 사용하셔야 합니다.";
+		if(strlen($pw)<$minPwLen)
+			return "최소 ".$minPwLen."자리가 넘는 패스워드를 사용하셔야 합니다.";
 		if(counts($table, $clause)!=0)
 			return "이미 사용되고있는 ID입니다.";
 		return null;

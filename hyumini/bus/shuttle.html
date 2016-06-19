@@ -13,7 +13,8 @@
 
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
 
-  <script type="text/javascript" src="shuttle_table.js"></script>
+  <script type="text/javascript" src="js/shuttle_table.js" charset="utf-8"></script>
+  <script type="text/javascript" src="js/shuttle_current.js" charset="utf-8"></script>
 
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 
@@ -27,8 +28,8 @@
     <div class="panel-body">
       <nav>
         <ul class="nav nav-justified">
-          <li><a href="#">Shuttle</a></li>
-          <li class="active"><a href="commute.html">Commute</a></li> <!-- 이거를 링크걸어야 함! -->
+          <li><a class="current_tab" href="#">Shuttle</a></li>
+          <li class="active"><a class="another_tab" href="commute.html">Commute</a></li> <!-- 이거를 링크걸어야 함! -->
         </ul>
       </nav>
 
@@ -40,22 +41,33 @@
         <div class="btnGroup">
           <div class="btn-group" role="group" aria-label="">
             <select class="selectSeme" name="selectSeme">
-              <option value="seme">학기중</option>
-              <option value="session">계절학기</option>
-              <option value="break">방학</option>
+              <option value="학기중" id="학기중">학기중</option>
+              <option value="계절학기" id="계절학기">계절학기</option>
+              <option value="방학중" id="방학중">방학</option>
             </select>
-            <input type="radio" name="selDay" value="주중">주중
-            <input type="radio" name="selDay" value="토요일,공휴일">토요일, 공휴일
-            <input type="radio" name="selDay" value="일요일">일요일
+            <input type="radio" name="selDay" value="평일">
+            <label for="평일">주중</label>
+            <input type="radio" name="selDay" value="토요일공휴일">
+            <label for="토요일공휴일">토요일, 공휴일</label>
+            <input type="radio" name="selDay" value="일요일">
+            <label for="일요일">일요일</label>
+            <input type="radio" name="selDay" value="휴일">
+            <label for="휴일">주말</label>
           </div>
 
           <div class="btn-group selectCourse" role="group" aria-label="">
-            <button type="button" class="btn btn-info btn-shuttle">셔틀콕-한대앞</button>
-            <button type="button" class="btn btn-info btn-shuttle">셔틀콕-예술인</button>
-            <button type="button" class="btn btn-info btn-shuttle">순환</button>
+            <button type="button" class="btn btn-info btn-shuttle" id="한대앞역">셔틀콕-한대앞</button>
+            <button type="button" class="btn btn-info btn-shuttle" id="예술인A">셔틀콕-예술인</button>
+            <button type="button" class="btn btn-info btn-shuttle" id="순환">순환</button>
           </div>
-
+          <table class="table table-bordered" id="shuttleTable">
+            <thead>
+              <tr id="shuttleTableTheadTd">
+              </tr>
+            </thead>
+            <tbody id = "shuttleTableTbody">
+            </tbody>
+          </table>
         </div>
-
 </body>
 </html>

@@ -84,8 +84,8 @@
   width:100%;
 }
 .selectSeme .btn-shuttle{
-	width:33.333333%;
-	float:left;
+  width:33.333333%;
+  float:left;
   text-align: center;
 
 }
@@ -96,4 +96,21 @@
 }
 .selectSeme{
   margin-right : 15px;
+}
+.another_tab{
+  background-color: silver;
+  color: rosybrown;
+}
+table{
+  margin-top: 30px;
+  background-color: floralwhite;
+  font-weight: bold;
+}
+
+thead tr th{
+  text-align: center;
+}
+
+label{
+  font-size: 10pt;
 }

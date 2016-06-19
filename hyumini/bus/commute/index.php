@@ -39,7 +39,7 @@
 	 *
 	 */
 
-	require_once("./excel.php"); 
+	require_once("../excel.php"); 
 	
 	http_response_code(400);
 	$err = json_encode(Array("resultTable"=>null, "resultCode"=>-1));
@@ -56,7 +56,7 @@
 	$commuteType = $_GET["commuteType"];
 	$courseName = $_GET["course"];
 
-	$filename = "./commute_".$commuteType.".xlsx";
+	$filename = "../excel/commute_".$commuteType.".xlsx";
 	$excel = getExcel($filename);
 	if(gettype($excel)=="integer" && $excel==-1){
 		echo $err;

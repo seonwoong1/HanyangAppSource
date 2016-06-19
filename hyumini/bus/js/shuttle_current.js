@@ -24,6 +24,9 @@ $(document).ready(function(){
 			var now = new Date();
 			var nMin = now.getHours() * 60 + now.getMinutes();
 			var tMin = time[0] * 60 + time[1]*1;
+			if(tMin<nMin){
+				return -1;
+			}
 			return tMin-nMin;
 		}
 
@@ -37,12 +40,13 @@ $(document).ready(function(){
 				var caption = $(document.createElement("caption"));
 				caption.text("버스가 오기까지...");
 				nowTable.attr("id", "shuttleNowTable");
+				nowTable.attr("class", "table table-striped");
 				nowTable.append(caption);
 				$.map(table, function(stations, course){				
 					var tr_head = $(document.createElement("tr"));
 					var td_head = $(document.createElement("th"));
 
-					td_head.attr("colspan", stations.length);
+					td_head.attr("colspan", Object.keys(stations).length);
 					td_head.text(course.replace("_","에서 "));
 					tr_head.append(td_head);
 					nowTable.append(tr_head);
@@ -50,7 +54,14 @@ $(document).ready(function(){
 					var tr = $(document.createElement("tr"));
 					$.map(stations, function(time, station){
 						var td = $(document.createElement("td"));
-						td.text(station+": "+remainMinutes(time)+"분");
+						var remain = remainMinutes(time);
+						if(remain==-1){
+							td.text(station+": 운행종료");
+						}else if(remain==0){
+							td.text(station+": 출발 준비중");
+						}else{
+							td.text(station+": "+remain+"분");
+						}
 						tr.append(td);
 					});
 					
@@ -73,7 +84,7 @@ $(document).ready(function(){
 
 		function shuttleNow(){
 			$.ajax({
-				url:"./shuttle.php",
+				url:"./shuttle/",
 				data:{context:"now"},
 				dataType:"JSON",
 				statusCode:{

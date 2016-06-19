@@ -65,7 +65,7 @@
 	$sid = selectOne($table, "SID", $clause);
 
 	$table = "OTP";
-	$clause = "WHERE SID=".$sid;
+	$clause = "WHERE SID=".quote($sid);
 	$cnt = counts($table, $clause);
 	$otp = generateOTP();
 	$expire = date("Y-m-d H:i:s", time()+1800);
@@ -87,7 +87,7 @@
 	}
 	if(sendOTP($email, $otp)){
 		http_response_code(200);
-		echo json_encode(Array("reason"=>"Send OTP S","resultCode"=>1));
+		echo json_encode(Array("reason"=>"Send OTP Success","resultCode"=>1));
 	}else{
 		http_response_code(500);
 		echo $err;
