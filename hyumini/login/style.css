@@ -1,0 +1,44 @@
+body{
+	background-color: #7EA6E0;
+	
+}
+button {
+    outline: none;
+	border: none !important;
+	-webkit-box-shadow: none !important;
+	-moz-box-shadow: none !important;
+	box-shadow: none !important;
+}
+
+#panel{
+	background-color: #ffffff;
+	text-align: center;
+	margin: auto;
+	width: 80%;
+	border-radius: 10px;
+	padding: 10px;
+	margin-top: 10%;
+}
+
+#panel *{
+	border-radius: 5px;
+}
+
+button{
+	/* 수정: 안윤근 */
+	background-color: #35B62C;
+	width: 80%;
+	/* Added */
+	height:32px;
+	color:#ffffff;
+	font-weight:bold;
+}
+
+#title{
+	margin-bottom: 15px;
+}
+
+/* 추가: 안윤근 */
+input{
+	width:80%;
+}
