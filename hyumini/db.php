@@ -21,11 +21,13 @@
 	// Create a handler function
 	function my_assert_handler($file, $line, $code, $desc = null)
 	{
+		/*
 		echo "Assertion failed at $file:$line: $code";
 		if ($desc) {
 			echo ": $desc";
 		}
 		echo "\n";
+		*/
 	}
 
 	// Set up the callback
@@ -107,7 +109,7 @@
 		//디버깅용 오류메시지
 		$err = $stmt->errorInfo();
 		if(isset($err[2])){
-			print_r($err);
+			//print_r($err);
 			return -1;
 		}
 		return 0;
@@ -278,7 +280,7 @@
 		//디버깅용 오류메시지
 		$err = $stmt->errorInfo();
 		if(isset($err[2])){
-			print_r($err);
+			//print_r($err);
 			return -1;
 		}
 		return $stmt->rowCount();
@@ -453,7 +455,7 @@
 		//디버깅용 오류메시지
 		$err = $stmt->errorInfo();
 		if(isset($err[2])){
-			print_r($err);
+			//print_r($err);
 			return -1;
 		}
 		return $stmt;

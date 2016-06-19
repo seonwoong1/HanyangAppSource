@@ -43,14 +43,14 @@ function return_success(ajax){
 	}
 }
 
+//수정: 안윤근
 function informationNonExist(ajax){
-	$('error').innerHTML = "information not exist";
-
+	$('error').innerHTML = ajax.responseJSON.reason;
 }
 
+//수정: 안윤근
 function enteredValueError(ajax){
-	$('error').innerHTML = "enteredValueError ";
-
+	$('error').innerHTML = ajax.responseJSON.reason;
 }
 
 

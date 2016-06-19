@@ -49,7 +49,7 @@
 	}
 	//First Login도 아닌경우
 	else{
-		echo json_encode(Array("reason"=>"Not Firt Login","resultCode"=>2));
+		echo json_encode(Array("reason"=>"Not First Login","resultCode"=>2));
 	}
 
 ?>

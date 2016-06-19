@@ -22,14 +22,14 @@ function return_success(ajax){
 	location.replace("newpw.html");
 }
 
+//수정: 안윤근
 function matchOTPFailed(ajax){
-	$('error').innerHTML = "OTP Expired/Not Match";
-
+	$('error').innerHTML = ajax.responseJSON.reason;
 }
 
+//수정: 안윤근
 function exceptionError(ajax){
-	$('error').innerHTML = "error!! ";
-
+	$('error').innerHTML = ajax.responseJSON.reason;
 }
 
 function getURLParameter(name) {

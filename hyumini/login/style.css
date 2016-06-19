@@ -14,7 +14,7 @@ button {
 	background-color: #ffffff;
 	text-align: center;
 	margin: auto;
-	width: 60%;
+	width: 80%;
 	border-radius: 10px;
 	padding: 10px;
 	margin-top: 10%;
@@ -25,11 +25,20 @@ button {
 }
 
 button{
+	/* 수정: 안윤근 */
 	background-color: #35B62C;
 	width: 80%;
-	margin-bottom: 5px;
+	/* Added */
+	height:32px;
+	color:#ffffff;
+	font-weight:bold;
 }
 
 #title{
 	margin-bottom: 15px;
+}
+
+/* 추가: 안윤근 */
+input{
+	width:80%;
 }
